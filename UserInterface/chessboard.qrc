@@ -1,0 +1,36 @@
+<RCC>
+    <qresource prefix="/ChessBorad">
+        <file>Images/board2.jpg</file>
+    </qresource>
+    <qresource prefix="/Chessman">
+        <file>Images/BishopB.GIF</file>
+        <file>Images/BishopsB.GIF</file>
+        <file>Images/Cannon.GIF</file>
+        <file>Images/CannonR.GIF</file>
+        <file>Images/CannonR2.GIF</file>
+        <file>Images/Cannons.GIF</file>
+        <file>Images/King.GIF</file>
+        <file>Images/KingR.GIF</file>
+        <file>Images/KingRS.GIF</file>
+        <file>Images/Kings.GIF</file>
+        <file>Images/Knight.GIF</file>
+        <file>Images/KnightR.GIF</file>
+        <file>Images/KnightRS.GIF</file>
+        <file>Images/Knights.GIF</file>
+        <file>Images/Mandarin.GIF</file>
+        <file>Images/MandarinR.GIF</file>
+        <file>Images/MandarinRS.GIF</file>
+        <file>Images/Mandarins.GIF</file>
+        <file>Images/OOS.GIF</file>
+        <file>Images/pawn.GIF</file>
+        <file>Images/PawnR.GIF</file>
+        <file>Images/PawnRS.GIF</file>
+        <file>Images/pawns.GIF</file>
+        <file>Images/RB.GIF</file>
+        <file>Images/RBS.GIF</file>
+        <file>Images/Rook.GIF</file>
+        <file>Images/RookR.GIF</file>
+        <file>Images/RookRS.GIF</file>
+        <file>Images/rooks.GIF</file>
+    </qresource>
+</RCC>
