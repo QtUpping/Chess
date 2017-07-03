@@ -19,16 +19,14 @@ public:
     int *getConversionCoordinate(int *point);
     //修改 每次进行有效点击是将坐标提供给外部
     void coordinateConversion(int *XY);
-
 //    bool validClick(int *XY);         //判断点击是否在棋盘内  暂时无定义
-    void Capture(int *XY, int count);
+    bool Capture(int *XY, int count);   //通过返回值控制被吃棋子失效
 
 private slots:
     void on_RCannon_clicked();
     void on_RCannon2_clicked();
-
-//signals:
-//    void MoveChessmanSignal(int *XY);
+    void on_RRook_clicked();
+    void on_RRook2_clicked();
 
 private:
     Ui::ChessBoard *ui;
@@ -52,7 +50,7 @@ public:
     void resetStatuT();                                       //用于在鼠标点击事件中将DBS设为真
     bool getDBStatu();
     bool getStatu();                                          //提供MoveStatu状态的接口
-    void Choose_or_Move_Judge(int count);    //改变状态函数, 若判断可移动则更新为下一状态
+    void Choose_or_Move_Judge(int count);    //改变状态函数, 每次鼠标点击按钮均更新状态
     int *updateClickCoordinate(int *XY);        //更新坐标point   然而point的坐标没有用上 看起来与coordinate功能重复
 };
 

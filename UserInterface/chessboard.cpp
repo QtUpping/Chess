@@ -12,9 +12,6 @@ ChessBoard::ChessBoard(QWidget *parent) :
 {
     coordinate[0]=oldPoint[0]=coordinate[1]=oldPoint[1]=0;
     ui->setupUi(this);
-//    connect( ui->RCannon,SIGNAL(clicked()), this, SLOT( moveAttempt(int*) ) );  发现信号和槽需要参数类型相同 故这种写法无法使用功能(可以连接) 所以要传坐标参数得去on_pushbutton_clicked中调用函数
-//07-03  可以在ON_BUTTON_CLICK中发送一个带参数的触发信号
-//    connect(ui->RCannon, SIGNAL(MoveChessmanSignal(int *) ), this, SLOT(Capture(int*) ) );
 }
 
 ChessBoard::~ChessBoard()
@@ -29,7 +26,7 @@ void ChessBoard::mousePressEvent(QMouseEvent *e)
     coordinateConversion(XY);
     click->updateClickCoordinate(originalXY);
 
-     qDebug("Movestaty=%d    DBStaty=%d",click->getStatu(),click->getDBStatu() );
+//     qDebug("Movestaty=%d    DBStaty=%d",click->getStatu(),click->getDBStatu() );
     if( click->getStatu() == false && click->getDBStatu() == false)
     {
         qDebug()<<"mouse at "<<originalXY[0]<<","<<originalXY[1];
@@ -40,6 +37,12 @@ void ChessBoard::mousePressEvent(QMouseEvent *e)
             break;
         case 2:
             ui->RCannon2->move(originalXY[0]-20, originalXY[1]-20);
+            break;
+        case 3:
+            ui->RRook->move(originalXY[0]-20, originalXY[1]-20);
+            break;
+        case 4:
+            ui->RRook2->move(originalXY[0]-20, originalXY[1]-20);
             break;
         }
     }
@@ -55,12 +58,13 @@ void ChessBoard::mousePressEvent(QMouseEvent *e)
     b2->show();
 }
 
-void ChessBoard::Capture(int *XY,int count)
+bool ChessBoard::Capture(int *XY,int count)
 {
     if(  click->getStatu() == true  )
     {
          click->setCounter(count);
          qDebug()<<click->getCounter();
+         return false;
     }
     else
     {
@@ -73,10 +77,18 @@ void ChessBoard::Capture(int *XY,int count)
         case 2:
              ui->RCannon2->move(XY[0], XY[1] );
             break;
+        case 3:
+             ui->RRook->move(XY[0], XY[1] );
+            break;
+        case 4:
+             ui->RRook2->move(XY[0], XY[1] );
+            break;
         }
+        return true;
     }
 }
-
+/**********************************按钮槽函数(实现移动, 失效)*****************************************/
+/**********************************即走棋, 吃子*******************************************************/
 void ChessBoard::on_RCannon_clicked()
 {
     int originalXY[2]={ ui->RCannon->x(), ui->RCannon->y() };
@@ -84,15 +96,18 @@ void ChessBoard::on_RCannon_clicked()
     coordinateConversion(XY);
 
      /**这两行顺序很重要, 两个函数通过class Movestatu中的MoveStatu的值进行判断并进行修改**/
-    Capture(originalXY,1);
+    if( Capture(originalXY,1) )
+    {
+        ui->RCannon->setEnabled(false);
+        ui->RCannon->hide();
+    }
     click->Choose_or_Move_Judge(1);
     /**千万不能颠倒, 若颠倒棋子移动功能无法完全实现**/
-
-    /********创建坐标按钮**********/
-    QPushButton *b2 = new QPushButton(this);
-    b2->setText( tr("Cannon1(%1,%2)").arg(coordinate[0]).arg(coordinate[1] ) );
-    b2->setGeometry(0,100,100,30);
-    b2->show();
+    /********************创建坐标按钮**********************/
+//    QPushButton *b2 = new QPushButton(this);
+//    b2->setText( tr("Cannon1(%1,%2)").arg(coordinate[0]).arg(coordinate[1] ) );
+//    b2->setGeometry(0,100,100,30);
+//    b2->show();
 }
 void ChessBoard::on_RCannon2_clicked()
 {
@@ -100,16 +115,43 @@ void ChessBoard::on_RCannon2_clicked()
      int XY[2]={ ui->RCannon2->x(), ui->RCannon2->y() };
      coordinateConversion(XY);
      /*---------顺序别乱------------*/
-     Capture(originalXY,2);
+     if( Capture(originalXY,1) )
+     {
+         ui->RCannon2->setEnabled(false);
+         ui->RCannon2->hide();
+     }
      click->Choose_or_Move_Judge(2);
     /*-----------------------------*/
-
-     /********创建坐标按钮**********/
-     QPushButton *b2 = new QPushButton(this);
-     b2->setText( tr("Cannon2(%1,%2)").arg(coordinate[0]).arg(coordinate[1] ) );
-     b2->setGeometry(0,150,100,30);
-     b2->show();
 }
+void ChessBoard::on_RRook_clicked()
+{
+    int originalXY[2] = { ui->RRook->x(), ui->RRook->y() };
+    int XY[2]={ ui->RRook->x(), ui->RRook->y() };
+    coordinateConversion(XY);
+    /*---------顺序别乱------------*/
+    if( Capture(originalXY,3) )
+    {
+        ui->RRook->setEnabled(false);
+        ui->RRook->hide();
+    }
+    click->Choose_or_Move_Judge(3);
+   /*-----------------------------*/
+}
+void ChessBoard::on_RRook2_clicked()
+{
+    int originalXY[2] = { ui->RRook2->x(), ui->RRook2->y() };
+    int XY[2]={ ui->RRook2->x(), ui->RRook2->y() };
+    coordinateConversion(XY);
+    /*---------顺序别乱------------*/
+    if( Capture(originalXY,4) )
+    {
+        ui->RRook2->setEnabled(false);
+        ui->RRook2->hide();
+    }
+    click->Choose_or_Move_Judge(4);
+   /*-----------------------------*/
+}
+/*****************************************槽函数部分**************************************************/
 
 
 /*************基本没有问题部分**********************/
@@ -206,15 +248,6 @@ int *MoveRecord::updateClickCoordinate(int *XY)
 //     }
 //     return true;
 //}
-
-
-
-
-
-
-
-
-
 
 
 

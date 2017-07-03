@@ -20,7 +20,7 @@
    <widget class="QPushButton" name="RCannon">
     <property name="geometry">
      <rect>
-      <x>420</x>
+      <x>430</x>
       <y>330</y>
       <width>40</width>
       <height>40</height>
@@ -41,6 +41,32 @@
     </property>
     <property name="text">
      <string>炮2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RRook">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>230</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>车1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RRook2">
+    <property name="geometry">
+     <rect>
+      <x>780</x>
+      <y>230</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>车2</string>
     </property>
    </widget>
   </widget>
