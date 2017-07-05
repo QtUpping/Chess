@@ -27,7 +27,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>炮1</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="RCannon2">
@@ -40,7 +40,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>炮2</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="RRook">
@@ -66,7 +66,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>车2</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="RKnight">
@@ -79,7 +79,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>马1</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="RBIshop">
@@ -92,7 +92,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>相1</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="RMandarin">
@@ -105,7 +105,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>仕1</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="RKing">
@@ -118,7 +118,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>帅</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="RMandarin_2">
@@ -131,7 +131,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>仕2</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="RBishop2">
@@ -144,7 +144,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>相2</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="RKnight2">
@@ -157,7 +157,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>马2</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="RPawn1">
@@ -170,7 +170,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>兵1</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="RPawn2">
@@ -183,7 +183,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>兵2</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="Rpawn3">
@@ -196,7 +196,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>兵3</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="RPawn4">
@@ -209,7 +209,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>兵4</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="BKing">
@@ -222,7 +222,20 @@
      </rect>
     </property>
     <property name="text">
-     <string>将</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="chessboard_and_chessman.qrc">
+      <normaloff>:/ChessImages/Images/King.GIF</normaloff>:/ChessImages/Images/King.GIF</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="RPawn5">
@@ -235,7 +248,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>兵5</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="BPawn1">
@@ -300,7 +313,23 @@
      </rect>
     </property>
     <property name="text">
-     <string>卒5</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="chessboard_and_chessman.qrc">
+      <normaloff>:/ChessImages/Images/pawn.GIF</normaloff>:/ChessImages/Images/pawn.GIF</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="BCannon2">
@@ -436,6 +465,8 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="chessboard_and_chessman.qrc"/>
+ </resources>
  <connections/>
 </ui>

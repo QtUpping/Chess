@@ -33,19 +33,32 @@ bool Pawn::moveJudge(int* des, ChessController* controller)
     {
         return false;
     }
-    if((point[0] == des[0] && des[1] < point[1]) || (point[1] == des[1] && point[1] < 5))
+    int curCamp=getCamp();
+
+    //debug:
+    qDebug("curCamp = %d",curCamp);
+
+    if(getCamp() ==0 )                //红方兵
     {
-        /* 若本身移动正确，把参数传给按钮控制函数，执行按钮参数传递和判断是否有棋子，吃棋等等
-         * 然后按钮控制函数调用棋子控制函数等等
-         * 设棋子控制函数buttonController(this->point, int* des);
-         * buttonController()函数声明构思:void buttonController(int* oldPoint, int* destination)
-         */
-//        buttonController(point, des);
-        return true;
+        if((point[0] == des[0] && des[1] < point[1]) || (point[1] == des[1] && point[1] < 5))
+        {
+            /* 若本身移动正确，把参数传给按钮控制函数，执行按钮参数传递和判断是否有棋子，吃棋等等
+             * 然后按钮控制函数调用棋子控制函数等等
+             * 设棋子控制函数buttonController(this->point, int* des);
+             * buttonController()函数声明构思:void buttonController(int* oldPoint, int* destination)
+             */
+    //        buttonController(point, des);
+            return true;
+        }
+        else
+            return false;
     }
-    else
+    else                        //黑方卒       走棋有些问题  尝试回走的时候 棋子坐标没有更新但是按钮移动了
     {
-        return false;
+        if((point[0] == des[0] && des[1] > point[1]) || (point[1] == des[1] && point[1] >= 5) )
+            return true;
+        else
+            return false;
     }
 }
 

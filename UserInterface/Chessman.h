@@ -37,6 +37,7 @@ public:
     void setOri(int des[]);
     void setCamp(int side);
     virtual bool setPoint(int* point, ChessController* controller) = 0;
+    virtual void capturePiece();                  //棋子被吃 移除棋子坐标  //无法用setPoint移除 , 因为setPoint需要符合移动规则才能修改point值
 };
 
 

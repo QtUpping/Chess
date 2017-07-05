@@ -18,11 +18,17 @@ public:
     ~ChessBoard();
     void mousePressEvent(QMouseEvent *e);
     //每次鼠标点击后修改coordinate的值(初始为0,0),通过getCurCoordinate提供给外部
-    int *getConversionCoordinate(int *point);
-    //修改 每次进行有效点击是将坐标提供给外部
+    void getConversionCoordinate(int *point);
+
+    //修改 每次进行有效点击是将坐标提供给外部  点击鼠标或者按钮均更新坐标 //或者改为每次移动之后更新坐标
     void coordinateConversion(int *XY);
+
 //    bool validClick(int *XY);         //判断点击是否在棋盘内  暂时无定义
     bool Capture(int *XY, int count);   //通过返回值控制被吃棋子失效
+
+     //将对方移动的棋盘坐标转化为与自己棋盘上坐标系对应的坐标
+    void boardCoordinateConversion(int *des);
+    //在发送坐标的时候调用
 
 private slots:
     void on_RCannon_clicked();

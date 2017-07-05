@@ -30,6 +30,8 @@ public:
     bool move(int* point, int* des);    //接收移动参数，调用对象setPoint实现棋子的移动
     void show();
 
+
+
     //现有棋子判断函数根据下方红方坐标写的, 若要黑子能使用应转化坐标
     //添加坐标转换函数
     void CampCoordinateConversion(int *des);

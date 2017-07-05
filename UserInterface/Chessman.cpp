@@ -36,6 +36,11 @@ void Chessman::setCamp(int side)
 {
     camp = side;
 }
+
+void Chessman::capturePiece()
+{
+    point[0] = point[1] =-1;
+}
 //bool Chessman::setPoint(int* des){
 //    if(moveJudge(des)){
 //        for(int i = 0; i < 2; i++){

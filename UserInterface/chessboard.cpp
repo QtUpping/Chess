@@ -53,10 +53,61 @@ ChessBoard::ChessBoard(QWidget *parent) :
     ChessmanButton[30]=ui->BKnight2;
     ChessmanButton[31]=ui->BRook2;
 
-    QIcon Ipawn( ":/ChessImages/Images/RookR.GIF" );
-    ChessmanButton[0]->setIcon(Ipawn);
+//根据阵营初始化按钮显示不同的棋子
+//需要获取当前为红方黑方
+    QIcon R1( ":/ChessImages/Images/RookR.GIF" );
+    ChessmanButton[0]->setIcon(R1);
     ChessmanButton[0]->setIconSize(QSize(40,40) );
     ChessmanButton[0]->setFlat(true);
+    ChessmanButton[8]->setIcon(R1);
+    ChessmanButton[8]->setIconSize(QSize(40,40) );
+    ChessmanButton[8]->setFlat(true);
+
+    QIcon R2( ":/ChessImages/Images/KnightR.GIF" );
+    ChessmanButton[1]->setIcon(R2);
+    ChessmanButton[1]->setIconSize(QSize(40,40) );
+    ChessmanButton[1]->setFlat(true);
+    ChessmanButton[7]->setIcon(R2);
+    ChessmanButton[7]->setIconSize(QSize(40,40) );
+    ChessmanButton[7]->setFlat(true);
+
+    QIcon R3( ":/ChessImages/Images/RB.GIF" );
+    ChessmanButton[2]->setIcon(R3);
+    ChessmanButton[2]->setIconSize(QSize(40,40) );
+    ChessmanButton[2]->setFlat(true);
+    ChessmanButton[6]->setIcon(R3);
+    ChessmanButton[6]->setIconSize(QSize(40,40) );
+    ChessmanButton[6]->setFlat(true);
+
+    QIcon R4( ":/ChessImages/Images/MandarinR.GIF" );
+    ChessmanButton[3]->setIcon(R4);
+    ChessmanButton[3]->setIconSize(QSize(40,40) );
+    ChessmanButton[3]->setFlat(true);
+    ChessmanButton[5]->setIcon(R4);
+    ChessmanButton[5]->setIconSize(QSize(40,40) );
+    ChessmanButton[5]->setFlat(true);
+
+    QIcon R5( ":/ChessImages/Images/KingR.GIF" );
+    ChessmanButton[4]->setIcon(R5);
+    ChessmanButton[4]->setIconSize(QSize(40,40) );
+    ChessmanButton[4]->setFlat(true);
+
+    QIcon R6( ":/ChessImages/Images/CannonR.GIF" );
+    ChessmanButton[9]->setIcon(R6);
+    ChessmanButton[9]->setIconSize(QSize(40,40) );
+    ChessmanButton[9]->setFlat(true);
+    ChessmanButton[10]->setIcon(R6);
+    ChessmanButton[10]->setIconSize(QSize(40,40) );
+    ChessmanButton[10]->setFlat(true);
+
+    QIcon R7( ":/ChessImages/Images/PawnR.GIF" );
+    for(int i=11; i<16;++i)
+    {
+        ChessmanButton[i]->setIcon(R7);
+        ChessmanButton[i]->setIconSize(QSize(40,40) );
+        ChessmanButton[i]->setFlat(true);
+    }
+
 }
 
 ChessBoard::~ChessBoard()
@@ -135,6 +186,21 @@ bool ChessBoard::Capture(int *XY,int count)
             return false;
     }
 }
+
+/*
+ *    Bishop->setStyleSheet(QString("QPushButton{border-image: url(:/POLISH/CannonR.GIF);}"
+
+                                  "QPushButton:pressed{ border-image: url(:/POLISH/CannonR2.GIF);}"   ) );
+    bool imageStatu = true;
+    if( imageStatu == true)
+    {
+        ChessmanButton[0]->setStyleSheet("QPushButton{border-image: qrc:/ChessImages/Images/RookR.GIF};");
+        imageStatu = false;
+    }else {
+        ChessmanButton[0]->setStyleSheet("QPushButton{border-image: qrc:/ChessImages/Images/RookRS.GIF};");
+        imageStatu = true;
+    }
+*/
 /**********************************按钮槽函数(**************)*************************************************/
 /********************************** 吃子(走到另一个按钮并使其失效)*******************************************/
 void ChessBoard::on_RRook_clicked()
@@ -573,6 +639,12 @@ void ChessBoard::on_BRook2_clicked()
 
 
 /*************基本没有问题部分**********************/
+void ChessBoard::boardCoordinateConversion(int *des)            //将对方移动的棋盘坐标转化为与自己棋盘上坐标系对应的坐标
+{
+    des[0] = 8-des[0];
+    des[1] = 9-des[1];
+}
+
 void ChessBoard::coordinateConversion(int *XY)
 {
     int Xoffset=25, Yoffset=25;
@@ -585,11 +657,11 @@ void ChessBoard::coordinateConversion(int *XY)
     coordinate[0]=(XY[0]+Xoffset)/w;                     //偏移一定位置使点击交叉点附近区域即可p判断为点击在交叉处
     coordinate[1]=(XY[1]+Yoffset)/h;
 }
-int *ChessBoard::getConversionCoordinate(int *point)               //需要小改动
+
+void ChessBoard::getConversionCoordinate(int *point)
 {
      point[0]=coordinate[0];
      point[1]=coordinate[1];
-    return point;
 }
 /**********基本没有问题部分**************************/
 

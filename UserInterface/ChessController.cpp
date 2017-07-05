@@ -128,9 +128,10 @@ int ChessController::obstaclesOnLine(int* point, int* des)
         }
     }
     else if(point[1] == des[1])                             //横向移动有问题  根据输出来看 横纵坐标判断反了
-    {
+    {                                                                         //横向吃子有问题   没有判断正确位置和数量的点
         int i = point[0] < des[0]?point[0] + 1:des[0] + 1;
-        for(; i < des[0]; i++)
+        int max = point[0]>des[0]?point[0]-1: des[0] -1;
+        for(; i <= max; i++)
         {
             tmpArray[0] = i;
             tmpArray[1] = point[1];                         //修改: 原来 tmpArrya[0] = point[1]; tmpArray[1] =i; 改为
@@ -164,8 +165,8 @@ bool ChessController::move(int *point, int *des)
             if( start->setPoint(des, this))                  //吃子符合走法
             {
                 //修改: 添加对被吃棋子坐标的处理, 设为-1,-1
-                int t[2] = {-1,-1};
-                end->setPoint( t , this);
+                //在chessman中添加函数, 直接将point设为-1,-1  原本使用setPoint在不符合移动规则时无法修改成-1,-1
+                end->capturePiece();
 
                 qDebug("Capture in movement!");
 
