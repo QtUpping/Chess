@@ -2,7 +2,9 @@
 #define CHESSBOARD_H
 
 #include <QMainWindow>
+#include "ChessController.h"
 
+class ChessController;
 namespace Ui {
 class ChessBoard;
 }
@@ -27,6 +29,34 @@ private slots:
     void on_RCannon2_clicked();
     void on_RRook_clicked();
     void on_RRook2_clicked();
+    void on_RKnight_clicked();
+    void on_RBIshop_clicked();
+    void on_RMandarin_clicked();
+    void on_RKing_clicked();
+    void on_RMandarin_2_clicked();
+    void on_RBishop2_clicked();
+    void on_RKnight2_clicked();
+    void on_RPawn1_clicked();
+    void on_RPawn2_clicked();
+    void on_Rpawn3_clicked();
+    void on_RPawn4_clicked();
+    void on_RPawn5_clicked();
+    void on_BPawn1_clicked();
+    void on_BPawn2_clicked();
+    void on_BPawn3_clicked();
+    void on_BPawn4_clicked();
+    void on_BPawn5_clicked();
+    void on_BRook1_clicked();
+    void on_BKnight1_clicked();
+    void on_BBishop1_clicked();
+    void on_BMandarin_clicked();
+    void on_BKing_clicked();
+    void on_BRook2_clicked();
+    void on_BCannon1_clicked();
+    void on_BCannon2_clicked();
+    void on_BMandarin2_clicked();
+    void on_BBishop2_clicked();
+    void on_BKnight2_clicked();
 
 private:
     Ui::ChessBoard *ui;

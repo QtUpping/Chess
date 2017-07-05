@@ -21,7 +21,7 @@
     <property name="geometry">
      <rect>
       <x>430</x>
-      <y>330</y>
+      <y>580</y>
       <width>40</width>
       <height>40</height>
      </rect>
@@ -34,7 +34,7 @@
     <property name="geometry">
      <rect>
       <x>730</x>
-      <y>330</y>
+      <y>580</y>
       <width>40</width>
       <height>40</height>
      </rect>
@@ -46,6 +46,292 @@
    <widget class="QPushButton" name="RRook">
     <property name="geometry">
      <rect>
+      <x>370</x>
+      <y>680</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RRook2">
+    <property name="geometry">
+     <rect>
+      <x>780</x>
+      <y>680</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>车2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RKnight">
+    <property name="geometry">
+     <rect>
+      <x>425</x>
+      <y>680</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>马1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RBIshop">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>680</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>相1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RMandarin">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>680</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>仕1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RKing">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>680</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>帅</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RMandarin_2">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>680</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>仕2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RBishop2">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>680</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>相2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RKnight2">
+    <property name="geometry">
+     <rect>
+      <x>730</x>
+      <y>680</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>马2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RPawn1">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>530</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>兵1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RPawn2">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>530</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>兵2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Rpawn3">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>530</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>兵3</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RPawn4">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>530</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>兵4</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BKing">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>230</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>将</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RPawn5">
+    <property name="geometry">
+     <rect>
+      <x>780</x>
+      <y>530</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>兵5</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BPawn1">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>380</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>卒1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BPawn2">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>380</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>卒2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BPawn3">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>380</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>卒3</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BPawn4">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>380</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>卒4</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BPawn5">
+    <property name="geometry">
+     <rect>
+      <x>780</x>
+      <y>380</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>卒5</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BCannon2">
+    <property name="geometry">
+     <rect>
+      <x>730</x>
+      <y>330</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>黑炮2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BCannon1">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>330</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>黑炮1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BRook1">
+    <property name="geometry">
+     <rect>
       <x>380</x>
       <y>230</y>
       <width>40</width>
@@ -53,10 +339,88 @@
      </rect>
     </property>
     <property name="text">
-     <string>车1</string>
+     <string>黑车1</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="RRook2">
+   <widget class="QPushButton" name="BKnight1">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>230</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>黑马1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BBishop1">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>230</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>黑象1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BMandarin">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>230</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>士1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BMandarin2">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>230</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>士2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BBishop2">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>230</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>黑象2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BKnight2">
+    <property name="geometry">
+     <rect>
+      <x>730</x>
+      <y>230</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>黑马2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BRook2">
     <property name="geometry">
      <rect>
       <x>780</x>
@@ -66,7 +430,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>车2</string>
+     <string>黑车2</string>
     </property>
    </widget>
   </widget>

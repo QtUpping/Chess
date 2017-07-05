@@ -13,9 +13,28 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        chessboard.cpp
+        chessboard.cpp \
+    Bishop.cpp \
+    Cannon.cpp \
+    ChessController.cpp \
+    Chessman.cpp \
+    King.cpp \
+    Knight.cpp \
+    Mandarin.cpp \
+    Pawn.cpp \
+    Rook.cpp
 
-HEADERS  += chessboard.h
+HEADERS  += chessboard.h \
+    AllChess.h \
+    Bishop.h \
+    Cannon.h \
+    ChessController.h \
+    Chessman.h \
+    King.h \
+    Knight.h \
+    Mandarin.h \
+    Pawn.h \
+    Rook.h
 
 FORMS    += chessboard.ui
 
