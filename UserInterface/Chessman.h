@@ -32,6 +32,7 @@ public:
 
     /*因为获取棋子信息不需要对棋子属性进行修改，所以统一在父类中进行定义*/
     int* getPoint();
+    int* getOldPoint();
     int getCamp();
     string getName();
     void setOri(int des[]);

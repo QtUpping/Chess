@@ -80,22 +80,6 @@ Chessman* ChessController::whetherExist(int* des)
     //debug使用
     qDebug("whetherExist receive(%d,%d)",des[0], des[1]);
 
-
-    //可能有bug  (2,6)的兵piece[12]移动时 返回的piece[11]
-//    for(int i = 0; i < 32; i++)
-//    {
-//        if(des[0] == piece[i]->getPoint()[0])
-//        {
-            //在这里进入循环之后,  又从头开始遍历, 若碰到第一个纵坐标相同的棋子就返回了 但是横坐标不一定相同
-//            for(int j = i; j < 32; j++)
-//            {
-//                if(des[1] == piece[j]->getPoint()[1])
-//                {
-//                    return piece[j];
-//                }
-//            }
-//        }
-//    }
     for(int i=0; i<32; ++i)
     {
         if(des[0] == piece[i]->getPoint()[0] && des[1] == piece[i]->getPoint()[1])
@@ -153,7 +137,9 @@ bool ChessController::move(int *point, int *des)
 //        return true;
         //修改:  注释部分若 棋子移动非法,棋子坐标无法改变, 但是返回值为真, 导致按钮位置发生改变
         if( start->setPoint(des, this) )
+        {
             return true;
+        }
         else
             return false;
     }
@@ -190,3 +176,12 @@ void ChessController::show()
     }
 }
 
+
+int ChessController::posInArr(int *des)
+{
+    for(int i=0; i<32; ++i)
+    {
+        if(des[0] == piece[i]->getPoint()[0] && des[1] == piece[i]->getPoint()[1])
+            return i;
+    }
+}

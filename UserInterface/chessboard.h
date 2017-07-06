@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "ChessController.h"
+#include "client.h"
 
 class ChessController;
 namespace Ui {
@@ -14,7 +15,7 @@ class ChessBoard : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit ChessBoard(QWidget *parent = 0);
+    explicit ChessBoard(Client* client, QWidget *parent = 0);
     ~ChessBoard();
     void mousePressEvent(QMouseEvent *e);
     //每次鼠标点击后修改coordinate的值(初始为0,0),通过getCurCoordinate提供给外部
@@ -64,10 +65,19 @@ private slots:
     void on_BBishop2_clicked();
     void on_BKnight2_clicked();
 
+//    void noArgTrans();
+    void react(QString chessPoint);
+
 private:
+    Client* myClient;
     Ui::ChessBoard *ui;
     int coordinate[2];              //记录坐标  在mousePressEvent更改  getCurCoordinate提供给类外使用
     int oldPoint[2];                  //前一点坐标  暂时还没用上
+    void convertFromQSToChar(QString str, char* charArr);
+    void convertFromCharToIntArr(char* charArr, int* intArr);
+    void convertFromIntToChar(int* intArr, char* charArr);
+    QString convertFromCharToQS(char* charArr);
+    void convertFromChessToReal(int* des);
 };
 
 /*------若能实现功能则移到另一个文件中--------------*/

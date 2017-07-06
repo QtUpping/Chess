@@ -41,6 +41,12 @@ void Chessman::capturePiece()
 {
     point[0] = point[1] =-1;
 }
+
+int* Chessman::getOldPoint()
+{
+    return oldPoint;
+}
+
 //bool Chessman::setPoint(int* des){
 //    if(moveJudge(des)){
 //        for(int i = 0; i < 2; i++){
