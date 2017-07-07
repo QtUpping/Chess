@@ -37,6 +37,12 @@ void Chessman::setCamp(int side)
     camp = side;
 }
 
+void Chessman::forceSetPoint(int *point)
+{
+    this->point[0] = point[0];
+    this->point[1] = point[1];
+}
+
 void Chessman::capturePiece()
 {
     point[0] = point[1] =-1;

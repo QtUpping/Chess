@@ -161,7 +161,7 @@ void ChessBoard::react(QString chessPoint)
 {
     char tmpCh[5] = {0};
     int Point[4], old[2] = {0}, des[2] = {0};
-    int posInArr = 0;
+    int posInArr = 0, oldPosInArr = 0;
     Chessman* tmpChessman = NULL;
     Chessman* enemy = NULL;
     convertFromQSToChar(chessPoint, tmpCh);
@@ -171,10 +171,10 @@ void ChessBoard::react(QString chessPoint)
     old[1] = Point[1];
     des[0] = Point[2];
     des[1] = Point[3];
-    tmpChessman = tmp->whetherExist(old);
     enemy = tmp->whetherExist(des);
     if(enemy == NULL)
     {
+        tmpChessman = tmp->whetherExist(old);
         tmpChessman->setPoint(des, tmp);
         qDebug("react1");
         posInArr = tmp->posInArr(des);
@@ -185,7 +185,17 @@ void ChessBoard::react(QString chessPoint)
     }
     else
     {
-
+        Chessman* oldChessman = tmp->whetherExist(old);
+        Chessman* desChessman = tmp->whetherExist(des);
+        oldPosInArr = tmp->posInArr(old);
+        posInArr = tmp->posInArr(des);
+        oldChessman->setPoint(des, tmp);
+        ChessmanButton[posInArr]->setEnabled(false);
+        ChessmanButton[posInArr]->hide();
+        int tmpPoint[2] = {-1, -1};
+        desChessman->forceSetPoint(tmpPoint);
+        convertFromChessToReal(des);
+        ChessmanButton[oldPosInArr]->move(des[0], des[1]);
     }
 }
 
@@ -233,8 +243,8 @@ void ChessBoard::mousePressEvent(QMouseEvent *e)
             charArr[3] = coordinate[1] + 48;
             mes = convertFromCharToQS(charArr);
 //            mes = *str;
-            qDebug("%d, %d, %d, %d", tmpChessman->getOldPoint()[0], tmpChessman->getOldPoint()[1], coordinate[0], coordinate[1]);
-            qDebug()<<mes;
+            qDebug("mousePressEvent   %d, %d, %d, %d", tmpChessman->getOldPoint()[0], tmpChessman->getOldPoint()[1], coordinate[0], coordinate[1]);
+//            qDebug()<<mes;
             myClient->sendMesg(mes);
            qDebug()<<"Button arrived at "<<coordinate[0]<<","<<coordinate[1];
           ChessmanButton[ click->getCounter()-1 ]->move(originalXYcur[0]-20, originalXYcur[1]-20);

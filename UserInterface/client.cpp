@@ -9,7 +9,7 @@ void Client::connectServer()
 {
     tcpSocket = new QTcpSocket(this);
     tcpSocket->abort();
-    tcpSocket->connectToHost("192.168.1.101",1234);
+    tcpSocket->connectToHost("192.168.119.71",1234);
     tcpSocket->waitForConnected();
     this->connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readMesg()));
 }
