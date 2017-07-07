@@ -11,4 +11,10 @@ class ChessController;
 class Bishop : public Chessman
 {
 public:
-    Bishop(int camp) :Chessman("
+    Bishop(int camp) :Chessman("Ïó", camp) {}
+    bool setPoint(int* des, ChessController* controller);
+    bool moveJudge(int* des, ChessController* controller);
+};
+
+
+#endif //MYPART_BISHOP_H
