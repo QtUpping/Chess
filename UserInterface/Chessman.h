@@ -32,11 +32,13 @@ public:
 
     /*因为获取棋子信息不需要对棋子属性进行修改，所以统一在父类中进行定义*/
     int* getPoint();
+    int* getOldPoint();
     int getCamp();
     string getName();
     void setOri(int des[]);
     void setCamp(int side);
     virtual bool setPoint(int* point, ChessController* controller) = 0;
+    void forceSetPoint(int* point);
     virtual void capturePiece();                  //棋子被吃 移除棋子坐标  //无法用setPoint移除 , 因为setPoint需要符合移动规则才能修改point值
 };
 

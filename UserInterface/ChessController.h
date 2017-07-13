@@ -29,6 +29,7 @@ public:
     Chessman* whetherExist(int* des);   //参数为终点坐标，判断终点是否有棋子
     bool move(int* point, int* des);    //接收移动参数，调用对象setPoint实现棋子的移动
     void show();
+    int posInArr(int* des);
 
 
 

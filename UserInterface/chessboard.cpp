@@ -5,6 +5,7 @@
 #include <QDebug>
 #include "AllChess.h"
 #include "Chessman.h"
+#include <string>
 
 static MoveRecord *click = new MoveRecord;      //´´½¨Ò»¸öMoveRecordµÄÀà¶ÔÏó,  Í¨¹ýÖ¸Õëµ÷ÓÃchoose_or_moveº¯Êý
 static QPushButton *ChessmanButton[32] = {0};    //´´½¨Ò»¸öPushButtonÖ¸Õë´æ·ÅËùÓÐ°´Å¥µØÖ·
@@ -12,7 +13,7 @@ static QPushButton *ChessmanButton[32] = {0};    //´´½¨Ò»¸öPushButtonÖ¸Õë´æ·ÅËùÓ
 static ChessController *tmp = new ChessController;
 
 
-ChessBoard::ChessBoard(QWidget *parent) :
+ChessBoard::ChessBoard(Client* client, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ChessBoard)
 {
@@ -108,6 +109,94 @@ ChessBoard::ChessBoard(QWidget *parent) :
         ChessmanButton[i]->setFlat(true);
     }
 
+    myClient = client;
+    connect(myClient, SIGNAL(sendPoint(QString)), this, SLOT(react(QString)));
+//    connect(myClient, SIGNAL(readyRead()), this, SLOT(noArgTrans()));
+}
+
+QString ChessBoard::convertFromCharToQS(char *charArr)
+{
+    qDebug("move of chessman succeed");
+    QString str = QString(QLatin1String(charArr));
+    return str;
+//    str = new QString(QLatin1String(charArr));
+}
+
+void ChessBoard::convertFromChessToReal(int *des)
+{
+    int ori[2]={395,250};
+        int h=50,w=50;
+        des[0]=ori[0]+w*des[0] - 20;
+        des[1]=ori[1]+h*des[1] - 20;
+}
+
+void ChessBoard::convertFromIntToChar(int *intArr, char *charArr)
+{
+    sprintf(charArr, "%d%d%d%d", intArr[0], intArr[1], intArr[2], intArr[3]);
+}
+
+void ChessBoard::convertFromQSToChar(QString str, char* charArr)
+{
+    QByteArray tmp = str.toLatin1();
+//    *charArr = tmp.data();
+    strcpy(charArr, tmp.data());
+}
+
+void ChessBoard::convertFromCharToIntArr(char *charArr, int *intArr)
+{
+    char* tmp = charArr;
+    int i = 0;
+    while(*tmp)
+    {
+        if(*tmp>=48 && *tmp <= 57)
+        {
+            intArr[i] = *tmp - 48;
+            i++;
+        }
+        tmp++;
+    }
+}
+
+void ChessBoard::react(QString chessPoint)
+{
+    char tmpCh[5] = {0};
+    int Point[4], old[2] = {0}, des[2] = {0};
+    int posInArr = 0, oldPosInArr = 0;
+    Chessman* tmpChessman = NULL;
+    Chessman* enemy = NULL;
+    convertFromQSToChar(chessPoint, tmpCh);
+    convertFromCharToIntArr(tmpCh, Point);
+    qDebug("react");
+    old[0] = Point[0];
+    old[1] = Point[1];
+    des[0] = Point[2];
+    des[1] = Point[3];
+    enemy = tmp->whetherExist(des);
+    if(enemy == NULL)
+    {
+        tmpChessman = tmp->whetherExist(old);
+        tmpChessman->setPoint(des, tmp);
+        qDebug("react1");
+        posInArr = tmp->posInArr(des);
+        qDebug("react2");
+        convertFromChessToReal(des);
+        qDebug("react3");
+        ChessmanButton[posInArr]->move(des[0], des[1]);
+    }
+    else
+    {
+        Chessman* oldChessman = tmp->whetherExist(old);
+        Chessman* desChessman = tmp->whetherExist(des);
+        oldPosInArr = tmp->posInArr(old);
+        posInArr = tmp->posInArr(des);
+        oldChessman->setPoint(des, tmp);
+        ChessmanButton[posInArr]->setEnabled(false);
+        ChessmanButton[posInArr]->hide();
+        int tmpPoint[2] = {-1, -1};
+        desChessman->forceSetPoint(tmpPoint);
+        convertFromChessToReal(des);
+        ChessmanButton[oldPosInArr]->move(des[0], des[1]);
+    }
 }
 
 ChessBoard::~ChessBoard()
@@ -143,6 +232,20 @@ void ChessBoard::mousePressEvent(QMouseEvent *e)
        qDebug("lastpoint in mouseEvent is (%d,%d)",lastpoint[0],lastpoint[1]);
         if( tmp->move(lastpoint ,coordinate)  )
         {
+            char charArr[5] = {0};
+//            QString* str = NULL;
+            QString mes;
+            Chessman* tmpChessman = NULL;
+            tmpChessman = tmp->whetherExist(lastpoint);
+            charArr[0] = tmpChessman->getOldPoint()[0] + 48;
+            charArr[1] = tmpChessman->getOldPoint()[1] + 48;
+            charArr[2] = coordinate[0] + 48;
+            charArr[3] = coordinate[1] + 48;
+            mes = convertFromCharToQS(charArr);
+//            mes = *str;
+            qDebug("mousePressEvent   %d, %d, %d, %d", tmpChessman->getOldPoint()[0], tmpChessman->getOldPoint()[1], coordinate[0], coordinate[1]);
+//            qDebug()<<mes;
+            myClient->sendMesg(mes);
            qDebug()<<"Button arrived at "<<coordinate[0]<<","<<coordinate[1];
           ChessmanButton[ click->getCounter()-1 ]->move(originalXYcur[0]-20, originalXYcur[1]-20);
 //          click->resetStatuT();
@@ -179,6 +282,21 @@ bool ChessBoard::Capture(int *XY,int count)
         //ÓÉÊ¹ÓÃ tmp->piece[ click->getCounter()-1 ]->setPoint(coordinate, tmp) ¸ÄÎªÊ¹ÓÃ
         if( tmp->move( lastpoint, coordinate )  )
         {
+            char charArr[5] = {0};
+//            QString* str = NULL;
+            QString mes;
+            Chessman* tmpChessman = NULL;
+            tmpChessman = tmp->whetherExist(lastpoint);
+            charArr[0] = tmpChessman->getOldPoint()[0] + 48;
+            charArr[1] = tmpChessman->getOldPoint()[1] + 48;
+            charArr[2] = coordinate[0] + 48;
+            charArr[3] = coordinate[1] + 48;
+            mes = convertFromCharToQS(charArr);
+//            mes = *str;
+            qDebug("%d, %d, %d, %d", tmpChessman->getOldPoint()[0], tmpChessman->getOldPoint()[1], coordinate[0], coordinate[1]);
+            qDebug()<<mes;
+            myClient->sendMesg(mes);
+            qDebug()<<lastpoint[0]<< lastpoint[1]<<coordinate[0]<<coordinate[1];
             ChessmanButton[click->getCounter()-1]->move(XY[0], XY[1]);
             return true;
         }
