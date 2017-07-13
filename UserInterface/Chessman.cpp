@@ -37,30 +37,13 @@ void Chessman::setCamp(int side)
     camp = side;
 }
 
+int * Chessman::getOldPoint()
+{
+    return oldPoint;
+}
+
 void Chessman::forceSetPoint(int *point)
 {
     this->point[0] = point[0];
     this->point[1] = point[1];
 }
-
-void Chessman::capturePiece()
-{
-    point[0] = point[1] =-1;
-}
-
-int* Chessman::getOldPoint()
-{
-    return oldPoint;
-}
-
-//bool Chessman::setPoint(int* des){
-//    if(moveJudge(des)){
-//        for(int i = 0; i < 2; i++){
-//            oldPoint[i] = this->point[i];
-//            this->point[i] = des[i];
-//        }
-//        return true;
-//    } else {
-//        return false;
-//    }
-//}

@@ -1,15 +1,11 @@
 //
 // Created by Wang wei on 2017/7/1.
 //
-
 #include "ChessController.h"
-
-//debug
-#include <QDebug>
 
 ChessController::ChessController()
 {
-    int point[32][2] = {0};
+    int point[32][2] = {};
     int i = 0, j = 0, y = 0;
 
     for(i = 0; i < 9; i++){
@@ -23,7 +19,7 @@ ChessController::ChessController()
     point[21][0] = 1; point[21][1] = 2;
     point[22][0] = 7;point[22][1] = 2;
 
-    //ĞŞ¸Ä: i<20¸ÄÎªi<21
+    //ä¿®æ”¹: i<20æ”¹ä¸ºi<21
     for (i = 11; i < 21; i++, j+=2)
     {
         y = i<16?6:3;
@@ -34,7 +30,7 @@ ChessController::ChessController()
 
     for(i = 0; i < 4; i++)
     {
-        //ĞŞ¸Ä:  i<3¸ÄÎªi<2
+        //ä¿®æ”¹:  i<3æ”¹ä¸ºi<2
         j = i<2?0:1;
         rook[i] = new Rook(j);
         knight[i] = new Knight(j);
@@ -70,16 +66,16 @@ ChessController::ChessController()
     for(i = 0; i < 32; i++)
     {
         piece[i]->setOri(point[i]);
+
+        piece[i]->oldPoint[0] = point[i][0];
+        piece[i]->oldPoint[1] = point[i][1];
     }
 }
 
-//±éÀúËùÓĞÆå×Ó£¬ÅĞ¶ÏdesµãÊÇ·ñÓĞÆå×Ó£¬ÓĞµÄ»°·µ»ØÆå×ÓÖ¸Õë£¬·ñÔò·µ»ØNULL
+//éå†æ‰€æœ‰æ£‹å­ï¼Œåˆ¤æ–­desç‚¹æ˜¯å¦æœ‰æ£‹å­ï¼Œæœ‰çš„è¯è¿”å›æ£‹å­æŒ‡é’ˆï¼Œå¦åˆ™è¿”å›NULL
 
 Chessman* ChessController::whetherExist(int* des)
 {
-    //debugÊ¹ÓÃ
-    qDebug("whetherExist receive(%d,%d)",des[0], des[1]);
-
     for(int i=0; i<32; ++i)
     {
         if(des[0] == piece[i]->getPoint()[0] && des[1] == piece[i]->getPoint()[1])
@@ -89,14 +85,14 @@ Chessman* ChessController::whetherExist(int* des)
     return NULL;
 }
 
-//·µ»ØÔÚÍ¬Ò»Ö±ÏßµÄ²»°üÀ¨ÆğµãÖÕµãÔÚÄÚµÄÁ½µãÖ®¼äµÄÆå×ÓÊıÁ¿
-//µ÷ÓÃÊ±Ö»ÄÜÊÇÓÃÓÚÔÚÍ¬Ò»Ö±ÏßµÄÁ½µã
+//è¿”å›åœ¨åŒä¸€ç›´çº¿çš„ä¸åŒ…æ‹¬èµ·ç‚¹ç»ˆç‚¹åœ¨å†…çš„ä¸¤ç‚¹ä¹‹é—´çš„æ£‹å­æ•°é‡
+//è°ƒç”¨æ—¶åªèƒ½æ˜¯ç”¨äºåœ¨åŒä¸€ç›´çº¿çš„ä¸¤ç‚¹
 int ChessController::obstaclesOnLine(int* point, int* des)
 {
     int num = 0;
     int tmpArray[2] = {0};
     Chessman* tmpChess = NULL;
-    if((abs(point[0] - des[0]) + abs(point[1] - des[1])) == 1)          //Ö±ÏßÒÆ¶¯Ò»¸ñ
+    if((abs(point[0] - des[0]) + abs(point[1] - des[1])) == 1)          //ç›´çº¿ç§»åŠ¨ä¸€æ ¼
         return 0;
     if(point[0] == des[0])
     {
@@ -111,14 +107,14 @@ int ChessController::obstaclesOnLine(int* point, int* des)
                 num++;
         }
     }
-    else if(point[1] == des[1])                             //ºáÏòÒÆ¶¯ÓĞÎÊÌâ  ¸ù¾İÊä³öÀ´¿´ ºá×İ×ø±êÅĞ¶Ï·´ÁË
-    {                                                                         //ºáÏò³Ô×ÓÓĞÎÊÌâ   Ã»ÓĞÅĞ¶ÏÕıÈ·Î»ÖÃºÍÊıÁ¿µÄµã
+    else if(point[1] == des[1])                             //æ¨ªå‘ç§»åŠ¨æœ‰é—®é¢˜  æ ¹æ®è¾“å‡ºæ¥çœ‹ æ¨ªçºµåæ ‡åˆ¤æ–­åäº†
+    {                                                                         //æ¨ªå‘åƒå­æœ‰é—®é¢˜   æ²¡æœ‰åˆ¤æ–­æ­£ç¡®ä½ç½®å’Œæ•°é‡çš„ç‚¹
         int i = point[0] < des[0]?point[0] + 1:des[0] + 1;
         int max = point[0]>des[0]?point[0]-1: des[0] -1;
         for(; i <= max; i++)
         {
             tmpArray[0] = i;
-            tmpArray[1] = point[1];                         //ĞŞ¸Ä: Ô­À´ tmpArrya[0] = point[1]; tmpArray[1] =i; ¸ÄÎª
+            tmpArray[1] = point[1];                         //ä¿®æ”¹: åŸæ¥ tmpArrya[0] = point[1]; tmpArray[1] =i; æ”¹ä¸º
             tmpChess = whetherExist(tmpArray);
             if(tmpChess != NULL)
                 num++;
@@ -129,41 +125,56 @@ int ChessController::obstaclesOnLine(int* point, int* des)
 
 bool ChessController::move(int *point, int *des)
 {
+    int tp[2]={ point[0], point[1] };
+    Chessman* k1 = piece[4];
+    Chessman* k2 = piece[27];
     Chessman* start = whetherExist(point);
     Chessman* end = whetherExist(des);
+    if(start ==k1)
+    {
+        if( KingToKing(des, k1) ==false )
+            return false;
+    }
+    else if( start == k2)
+    {
+        if( KingToKing(des, k2) == false)
+            return false;
+    }
     if(end == NULL)
     {
-//        start->setPoint(des, this);
-//        return true;
-        //ĞŞ¸Ä:  ×¢ÊÍ²¿·ÖÈô Æå×ÓÒÆ¶¯·Ç·¨,Æå×Ó×ø±êÎŞ·¨¸Ä±ä, µ«ÊÇ·µ»ØÖµÎªÕæ, µ¼ÖÂ°´Å¥Î»ÖÃ·¢Éú¸Ä±ä
-        if( start->setPoint(des, this) )
+        //ä¿®æ”¹:  æ³¨é‡Šéƒ¨åˆ†è‹¥ æ£‹å­ç§»åŠ¨éæ³•,æ£‹å­åæ ‡æ— æ³•æ”¹å˜, ä½†æ˜¯è¿”å›å€¼ä¸ºçœŸ, å¯¼è‡´æŒ‰é’®ä½ç½®å‘ç”Ÿæ”¹å˜
+        if( start->setPoint(des, this)  && KingToKing() )
         {
             return true;
         }
         else
-            return false;
-    }
-    else  //ÒÆ¶¯Î»ÖÃÓĞÆå×Ó ÈôÎªµØ·½Ôò³Ô×Ó Î´¶Ô±»³ÔÆå×Ó×ø±ê×ö´¦Àí
-    {
-        //debug ĞŞ¸Ä
-        if(start->getCamp() != end->getCamp() )  //²»Í¬ÕóÓª ¿É³Ô×Ó
         {
-            if( start->setPoint(des, this))                  //³Ô×Ó·ûºÏ×ß·¨
+            start->forceSetPoint(tp);
+            return false;
+        }
+    }
+    else  //ç§»åŠ¨ä½ç½®æœ‰æ£‹å­ è‹¥ä¸ºåœ°æ–¹åˆ™åƒå­ æœªå¯¹è¢«åƒæ£‹å­åæ ‡åšå¤„ç†
+    {
+        if(start->getCamp() != end->getCamp() )  //ä¸åŒé˜µè¥ å¯åƒå­
+        {
+            if( start->setPoint(des, this) && KingToKing() )                  //åƒå­ç¬¦åˆèµ°æ³•
             {
-                //ĞŞ¸Ä: Ìí¼Ó¶Ô±»³ÔÆå×Ó×ø±êµÄ´¦Àí, ÉèÎª-1,-1
-                //ÔÚchessmanÖĞÌí¼Óº¯Êı, Ö±½Ó½«pointÉèÎª-1,-1  Ô­±¾Ê¹ÓÃsetPointÔÚ²»·ûºÏÒÆ¶¯¹æÔòÊ±ÎŞ·¨ĞŞ¸Ä³É-1,-1
-                end->capturePiece();
-
-                qDebug("Capture in movement!");
-
+                //ä¿®æ”¹: æ·»åŠ å¯¹è¢«åƒæ£‹å­åæ ‡çš„å¤„ç†, è®¾ä¸º-1,-1
+                //åœ¨chessmanä¸­æ·»åŠ å‡½æ•°, ç›´æ¥å°†pointè®¾ä¸º-1,-1  åŸæœ¬ä½¿ç”¨setPointåœ¨ä¸ç¬¦åˆç§»åŠ¨è§„åˆ™æ—¶æ— æ³•ä¿®æ”¹æˆ-1,-1
+                int tmpArr[2]={-1,-1};
+                end->oldPoint[0] = des[0];
+                end->oldPoint[1] = des[1];
+                end->forceSetPoint(tmpArr);
                 return true;
             }
             else
+            {
+                start->forceSetPoint(tp);
                 return  false;
+            }
         }
-
-//        return start->getCamp() != end->getCamp()
-//        && start->setPoint(des, this);
+        else
+            return false;
     }    
 }
 
@@ -176,12 +187,55 @@ void ChessController::show()
     }
 }
 
-
 int ChessController::posInArr(int *des)
 {
-    for(int i=0; i<32; ++i)
+    int i=0;
+    for(; i<32; ++i)
     {
         if(des[0] == piece[i]->getPoint()[0] && des[1] == piece[i]->getPoint()[1])
-            return i;
+            break;
+    }
+    return i;
+}
+
+bool ChessController::KingToKing(int *des, Chessman *k)
+{
+    Chessman *k1=piece[4];
+    Chessman *k2=piece[27];
+    if( k == k1 )
+    {
+        if( des[0] != piece[27]->getPoint()[0])
+            return true;
+        else if( obstaclesOnLine(des, piece[27]->getPoint() ) !=0 )
+            return true;
+        else
+            return false;
+    }
+    else if( k == k2 )
+    {
+        if( des[0] != piece[4]->getPoint()[0])
+            return true;
+        else if( obstaclesOnLine(des, piece[4]->getPoint() ) !=0 )
+            return true;
+        else
+            return false;
+    }
+    else {
+         return false;
+    }
+}
+
+bool ChessController::KingToKing()
+{
+    if(piece[4]->getPoint()[0] != piece[27]->getPoint()[0])
+        return true;
+    else
+    {
+        int k1[2]={ piece[4]->getPoint()[0], piece[4]->getPoint()[1] };
+        int k2[2]={ piece[27]->getPoint()[0], piece[27]->getPoint()[1] };
+        if( obstaclesOnLine(k1, k2) == 0 )
+            return false;
+        else
+            return true;
     }
 }

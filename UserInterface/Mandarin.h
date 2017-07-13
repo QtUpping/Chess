@@ -3,7 +3,7 @@
 //
 
 
-//Ê¿µÄÀà
+//å£«çš„ç±»
 
 
 #ifndef MYPART_MANDARIN_H
@@ -16,7 +16,7 @@ class ChessController;
 class Mandarin : public Chessman
 {
 public:
-    Mandarin(int camp) : Chessman("Ê¿", camp){}
+    Mandarin(int camp) : Chessman("å£«", camp){}
     bool setPoint(int* des, ChessController* controller);
     bool moveJudge(int* des, ChessController* controller);
 };

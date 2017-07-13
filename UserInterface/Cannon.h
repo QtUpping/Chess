@@ -2,7 +2,7 @@
 // Created by Wang wei on 2017/7/1.
 //
 
-//ÅÚµÄÀà
+//ç‚®çš„ç±»
 
 #ifndef MYPART_CANNON_H
 #define MYPART_CANNON_H
@@ -13,7 +13,7 @@ class ChessController;
 class Cannon : public Chessman
 {
 public:
-    Cannon(int camp) : Chessman("ÅÚ", camp){}
+    Cannon(int camp) : Chessman("ç‚®", camp){}
     bool setPoint(int* des, ChessController* controller);
     bool moveJudge(int* des, ChessController* controller);
 };

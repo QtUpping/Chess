@@ -11,7 +11,7 @@ class ChessController;
 
 class Knight : public Chessman{
 public:
-    Knight(int camp) : Chessman("Âí", camp){}
+    Knight(int camp) : Chessman("é©¬", camp){}
     bool setPoint(int* des, ChessController* controller);
     bool moveJudge(int* des, ChessController* controller);
 };

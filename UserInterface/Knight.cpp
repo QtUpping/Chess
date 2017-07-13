@@ -21,11 +21,10 @@ bool Knight::setPoint(int* des, ChessController* controller)
 
 bool Knight::moveJudge(int* des, ChessController* controller)
 {
-//    cout<<"("
     Chessman* tmpChess = NULL;
     int tmpArray[2] = {0};
 
-    //Êú×ßÈÕ
+    //ç«–èµ°æ—¥
     if(abs(point[1] - des[1]) == 2
        && abs(point[0] - des[0]) == 1)
     {
@@ -34,7 +33,7 @@ bool Knight::moveJudge(int* des, ChessController* controller)
         tmpChess = controller->whetherExist(tmpArray);
         return tmpChess == NULL;
     }
-        //ºá×ßÈÕ
+        //æ¨ªèµ°æ—¥
     else if(abs(point[0] - des[0]) == 2
             && abs(point[1] - des[1]) == 1)
     {

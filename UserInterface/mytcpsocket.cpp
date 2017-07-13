@@ -7,7 +7,7 @@ myTcpSocket::myTcpSocket(qintptr socketDescriptor, QObject *parent)
     connect(this, SIGNAL(readyRead()), this, SLOT(noArgTrans()));
 }
 
-//�õ�socketDescriptor
+//寰楀埌socketDescriptor
 //void myTcpSocket::noArgTrans()
 //{
 //    emit sendDescriptor(socketID);

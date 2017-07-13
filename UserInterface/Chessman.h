@@ -1,11 +1,11 @@
 //
 // Created by Wang wei on 2017/7/1.
 //
-//ÕâÊÇËùÓĞÆå×ÓµÄ¸¸Àà£¬ÓÃÓÚÉè¼ÆÆå×ÓµÄ»ù±¾¹¦ÄÜ
+//è¿™æ˜¯æ‰€æœ‰æ£‹å­çš„çˆ¶ç±»ï¼Œç”¨äºè®¾è®¡æ£‹å­çš„åŸºæœ¬åŠŸèƒ½
 /*
- * getPoint£¬getCamp£¬getNameÓÃÓÚ»ñÈ¡Æå×ÓµÄ»ù±¾ĞÅÏ¢
- * moveJudgeĞèÒªÃ¿¸öÆå×Ó×ÓÀàÊµÏÖ£¬¸ù¾İÆå×ÓÀàĞÍÅĞ¶ÏÂä×ÓÊÇ·ñºÏÀí
- * ÈômoveJudge*/
+ * getPointï¼ŒgetCampï¼ŒgetNameç”¨äºè·å–æ£‹å­çš„åŸºæœ¬ä¿¡æ¯
+ * moveJudgeéœ€è¦æ¯ä¸ªæ£‹å­å­ç±»å®ç°ï¼Œæ ¹æ®æ£‹å­ç±»å‹åˆ¤æ–­è½å­æ˜¯å¦åˆç†
+ * è‹¥moveJudge*/
 
 #ifndef MYPART_CHESSMAN_H
 #define MYPART_CHESSMAN_H
@@ -18,28 +18,30 @@ class ChessController;
 class Chessman {
 protected:
     string name;
-    int point[2];       //point[0]´ú±íºá×ø±ê£¬point[1]´ú±í×İ×ø±ê
-    int oldPoint[2];
-    int camp;           //0´ú±íºì£¬1´ú±íºÚ
+    int point[2];       //point[0]ä»£è¡¨æ¨ªåæ ‡ï¼Œpoint[1]ä»£è¡¨çºµåæ ‡
+
+    int camp;           //0ä»£è¡¨çº¢ï¼Œ1ä»£è¡¨é»‘
 public:
     Chessman(string name, int camp);
     ~Chessman();
+    //æš‚æ—¶å°†oldpoint[]æ”¹ä¸ºå…¬æœ‰
+    int oldPoint[2];
 
-    /* ÒòÎªÔÚ×ßÆåµÄÊ±ºòĞèÒª¸ù¾İÆå×ÓÖÖÀàÅĞ¶Ï×ß·¨Ê±ºòÓĞĞ§£¬ËùÒÔÉèÖÃÎ»ÖÃº¯Êı
-     * Îª´¿Ğéº¯Êı
+    /* å› ä¸ºåœ¨èµ°æ£‹çš„æ—¶å€™éœ€è¦æ ¹æ®æ£‹å­ç§ç±»åˆ¤æ–­èµ°æ³•æ—¶å€™æœ‰æ•ˆï¼Œæ‰€ä»¥è®¾ç½®ä½ç½®å‡½æ•°
+     * ä¸ºçº¯è™šå‡½æ•°
      */
     virtual bool moveJudge(int* des, ChessController* controller) = 0;
 
-    /*ÒòÎª»ñÈ¡Æå×ÓĞÅÏ¢²»ĞèÒª¶ÔÆå×ÓÊôĞÔ½øĞĞĞŞ¸Ä£¬ËùÒÔÍ³Ò»ÔÚ¸¸ÀàÖĞ½øĞĞ¶¨Òå*/
+    /*å› ä¸ºè·å–æ£‹å­ä¿¡æ¯ä¸éœ€è¦å¯¹æ£‹å­å±æ€§è¿›è¡Œä¿®æ”¹ï¼Œæ‰€ä»¥ç»Ÿä¸€åœ¨çˆ¶ç±»ä¸­è¿›è¡Œå®šä¹‰*/
     int* getPoint();
-    int* getOldPoint();
+    int *getOldPoint();
     int getCamp();
     string getName();
     void setOri(int des[]);
     void setCamp(int side);
     virtual bool setPoint(int* point, ChessController* controller) = 0;
+
     void forceSetPoint(int* point);
-    virtual void capturePiece();                  //Æå×Ó±»³Ô ÒÆ³ıÆå×Ó×ø±ê  //ÎŞ·¨ÓÃsetPointÒÆ³ı , ÒòÎªsetPointĞèÒª·ûºÏÒÆ¶¯¹æÔò²ÅÄÜĞŞ¸ÄpointÖµ
 };
 
 

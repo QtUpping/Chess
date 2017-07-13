@@ -12,7 +12,7 @@ class ChessController;
 class Rook : public Chessman
 {
 public:
-    Rook(int camp) : Chessman("³µ", camp){}
+    Rook(int camp) : Chessman("è½¦", camp){}
     bool setPoint(int* des, ChessController* controller);
     bool moveJudge(int* des, ChessController* controller);
 };

@@ -3,7 +3,7 @@
 //
 
 
-//±øµÄÀà
+//å…µçš„ç±»
 
 
 #ifndef MYPART_PAWN_H
@@ -15,7 +15,7 @@ class ChessController;
 class Pawn : public Chessman
 {
 public:
-    Pawn(int camp) : Chessman("±ø", camp){}
+    Pawn(int camp) : Chessman("å…µ", camp){}
     bool setPoint(int* des, ChessController* controller);
     bool moveJudge(int* des, ChessController* controller);
 };

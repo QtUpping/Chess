@@ -13,9 +13,6 @@
   <property name="windowTitle">
    <string>ChessBoard</string>
   </property>
-  <property name="styleSheet">
-   <string notr="true">image: url(:/ChessImages/Images/board2.jpg);</string>
-  </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QPushButton" name="RCannon">
     <property name="geometry">
@@ -28,6 +25,15 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="RCannon2">
@@ -42,6 +48,15 @@
     <property name="text">
      <string/>
     </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="RRook">
     <property name="geometry">
@@ -54,6 +69,15 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="RRook2">
@@ -68,6 +92,15 @@
     <property name="text">
      <string/>
     </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="RKnight">
     <property name="geometry">
@@ -80,6 +113,15 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="RBIshop">
@@ -94,6 +136,15 @@
     <property name="text">
      <string/>
     </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="RMandarin">
     <property name="geometry">
@@ -106,6 +157,15 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="RKing">
@@ -120,6 +180,15 @@
     <property name="text">
      <string/>
     </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="RMandarin_2">
     <property name="geometry">
@@ -132,6 +201,15 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="RBishop2">
@@ -146,6 +224,15 @@
     <property name="text">
      <string/>
     </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="RKnight2">
     <property name="geometry">
@@ -158,6 +245,15 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="RPawn1">
@@ -172,6 +268,15 @@
     <property name="text">
      <string/>
     </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="RPawn2">
     <property name="geometry">
@@ -185,6 +290,15 @@
     <property name="text">
      <string/>
     </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="Rpawn3">
     <property name="geometry">
@@ -197,6 +311,15 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="RPawn4">
@@ -214,6 +337,15 @@
     <property name="text">
      <string/>
     </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="BKing">
     <property name="geometry">
@@ -226,10 +358,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="chessboard_and_chessman.qrc">
-      <normaloff>:/ChessImages/Images/King.GIF</normaloff>:/ChessImages/Images/King.GIF</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -253,6 +381,15 @@
     <property name="text">
      <string/>
     </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="BPawn1">
     <property name="geometry">
@@ -264,7 +401,16 @@
      </rect>
     </property>
     <property name="text">
-     <string>卒1</string>
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="BPawn2">
@@ -277,7 +423,16 @@
      </rect>
     </property>
     <property name="text">
-     <string>卒2</string>
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="BPawn3">
@@ -290,7 +445,16 @@
      </rect>
     </property>
     <property name="text">
-     <string>卒3</string>
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="BPawn4">
@@ -303,7 +467,16 @@
      </rect>
     </property>
     <property name="text">
-     <string>卒4</string>
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="BPawn5">
@@ -317,10 +490,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="chessboard_and_chessman.qrc">
-      <normaloff>:/ChessImages/Images/pawn.GIF</normaloff>:/ChessImages/Images/pawn.GIF</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -345,7 +514,16 @@
      </rect>
     </property>
     <property name="text">
-     <string>黑炮2</string>
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="BCannon1">
@@ -358,7 +536,16 @@
      </rect>
     </property>
     <property name="text">
-     <string>黑炮1</string>
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="BRook1">
@@ -371,7 +558,16 @@
      </rect>
     </property>
     <property name="text">
-     <string>黑车1</string>
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="BKnight1">
@@ -384,7 +580,16 @@
      </rect>
     </property>
     <property name="text">
-     <string>黑马1</string>
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="BBishop1">
@@ -397,7 +602,16 @@
      </rect>
     </property>
     <property name="text">
-     <string>黑象1</string>
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="BMandarin">
@@ -410,7 +624,16 @@
      </rect>
     </property>
     <property name="text">
-     <string>士1</string>
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="BMandarin2">
@@ -423,7 +646,16 @@
      </rect>
     </property>
     <property name="text">
-     <string>士2</string>
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="BBishop2">
@@ -436,7 +668,16 @@
      </rect>
     </property>
     <property name="text">
-     <string>黑象2</string>
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="BKnight2">
@@ -449,7 +690,16 @@
      </rect>
     </property>
     <property name="text">
-     <string>黑马2</string>
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="BRook2">
@@ -462,14 +712,394 @@
      </rect>
     </property>
     <property name="text">
-     <string>黑车2</string>
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
+   <widget class="QPushButton" name="sendButton">
+    <property name="geometry">
+     <rect>
+      <x>1110</x>
+      <y>840</y>
+      <width>71</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>发送</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="MesRecord">
+    <property name="geometry">
+     <rect>
+      <x>907</x>
+      <y>434</y>
+      <width>281</width>
+      <height>391</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/background/Onmyoji/1.jpg);</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEdit">
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>840</y>
+      <width>191</width>
+      <height>41</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="P1Name">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>970</x>
+      <y>37</y>
+      <width>30</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="lineWidth">
+     <number>1</number>
+    </property>
+    <property name="text">
+     <string>昵称:</string>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="P2win">
+    <property name="geometry">
+     <rect>
+      <x>967</x>
+      <y>215</y>
+      <width>21</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>胜:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="P2Name">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>967</x>
+      <y>150</y>
+      <width>30</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="lineWidth">
+     <number>1</number>
+    </property>
+    <property name="text">
+     <string>昵称:</string>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="P2Lose">
+    <property name="geometry">
+     <rect>
+      <x>1054</x>
+      <y>215</y>
+      <width>21</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>负:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="P1lose">
+    <property name="geometry">
+     <rect>
+      <x>1057</x>
+      <y>100</y>
+      <width>21</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>负:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="P1win">
+    <property name="geometry">
+     <rect>
+      <x>970</x>
+      <y>100</y>
+      <width>21</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>胜:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="boardImage">
+    <property name="geometry">
+     <rect>
+      <x>363</x>
+      <y>220</y>
+      <width>472</width>
+      <height>520</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/ChessImages/Images/board2.jpg);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="backgroundForAll">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1200</width>
+      <height>960</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/background/Onmyoji/2-2.jpg);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="withdraw">
+    <property name="geometry">
+     <rect>
+      <x>930</x>
+      <y>270</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>悔棋</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="surrender">
+    <property name="geometry">
+     <rect>
+      <x>1110</x>
+      <y>270</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>认输</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Play">
+    <property name="geometry">
+     <rect>
+      <x>940</x>
+      <y>340</y>
+      <width>221</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>开始游戏</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="myName">
+    <property name="geometry">
+     <rect>
+      <x>1010</x>
+      <y>37</y>
+      <width>150</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="myWin">
+    <property name="geometry">
+     <rect>
+      <x>990</x>
+      <y>100</y>
+      <width>60</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="myLose">
+    <property name="geometry">
+     <rect>
+      <x>1080</x>
+      <y>100</y>
+      <width>60</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="theName">
+    <property name="geometry">
+     <rect>
+      <x>1010</x>
+      <y>150</y>
+      <width>150</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="theWin">
+    <property name="geometry">
+     <rect>
+      <x>990</x>
+      <y>215</y>
+      <width>60</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="theLose">
+    <property name="geometry">
+     <rect>
+      <x>1070</x>
+      <y>215</y>
+      <width>60</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>560</y>
+      <width>113</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>赞赏</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="QRCodeLabel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>600</y>
+      <width>211</width>
+      <height>221</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/ChessImages/Images/QRCode.png);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <zorder>backgroundForAll</zorder>
+   <zorder>boardImage</zorder>
+   <zorder>RCannon</zorder>
+   <zorder>RCannon2</zorder>
+   <zorder>RRook</zorder>
+   <zorder>RRook2</zorder>
+   <zorder>RKnight</zorder>
+   <zorder>RBIshop</zorder>
+   <zorder>RMandarin</zorder>
+   <zorder>RKing</zorder>
+   <zorder>RMandarin_2</zorder>
+   <zorder>RBishop2</zorder>
+   <zorder>RKnight2</zorder>
+   <zorder>RPawn1</zorder>
+   <zorder>RPawn2</zorder>
+   <zorder>Rpawn3</zorder>
+   <zorder>RPawn4</zorder>
+   <zorder>BKing</zorder>
+   <zorder>RPawn5</zorder>
+   <zorder>BPawn1</zorder>
+   <zorder>BPawn2</zorder>
+   <zorder>BPawn3</zorder>
+   <zorder>BPawn4</zorder>
+   <zorder>BPawn5</zorder>
+   <zorder>BCannon2</zorder>
+   <zorder>BCannon1</zorder>
+   <zorder>BRook1</zorder>
+   <zorder>BKnight1</zorder>
+   <zorder>BBishop1</zorder>
+   <zorder>BMandarin</zorder>
+   <zorder>BMandarin2</zorder>
+   <zorder>BBishop2</zorder>
+   <zorder>BKnight2</zorder>
+   <zorder>BRook2</zorder>
+   <zorder>sendButton</zorder>
+   <zorder>MesRecord</zorder>
+   <zorder>textEdit</zorder>
+   <zorder>P1Name</zorder>
+   <zorder>P2win</zorder>
+   <zorder>P2Name</zorder>
+   <zorder>P2Lose</zorder>
+   <zorder>P1lose</zorder>
+   <zorder>P1win</zorder>
+   <zorder>withdraw</zorder>
+   <zorder>surrender</zorder>
+   <zorder>Play</zorder>
+   <zorder>myName</zorder>
+   <zorder>myWin</zorder>
+   <zorder>myLose</zorder>
+   <zorder>theName</zorder>
+   <zorder>theWin</zorder>
+   <zorder>theLose</zorder>
+   <zorder>pushButton</zorder>
+   <zorder>QRCodeLabel</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="chessboard_and_chessman.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

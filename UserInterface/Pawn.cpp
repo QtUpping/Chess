@@ -4,8 +4,6 @@
 
 #include "Pawn.h"
 #include "ChessController.h"
-//debug
-#include <QDebug>
 
 bool Pawn::setPoint(int *des, ChessController* controller)
 {
@@ -14,10 +12,6 @@ bool Pawn::setPoint(int *des, ChessController* controller)
     {
         for(int i = 0; i < 2; i++)
         {
-            //debug:
-            qDebug("des (%d,%d)     and coordinate is updated",des[0],des[1]);
-            //
-
             oldPoint[i] = this->point[i];
             this->point[i] = des[i];
         }
@@ -33,27 +27,16 @@ bool Pawn::moveJudge(int* des, ChessController* controller)
     {
         return false;
     }
-    int curCamp=getCamp();
-
-    //debug:
-    qDebug("curCamp = %d",curCamp);
-
-    if(getCamp() ==0 )                //ºì·½±ø
+    if(getCamp() ==0 )                //çº¢æ–¹å…µ
     {
         if((point[0] == des[0] && des[1] < point[1]) || (point[1] == des[1] && point[1] < 5))
         {
-            /* Èô±¾ÉíÒÆ¶¯ÕýÈ·£¬°Ñ²ÎÊý´«¸ø°´Å¥¿ØÖÆº¯Êý£¬Ö´ÐÐ°´Å¥²ÎÊý´«µÝºÍÅÐ¶ÏÊÇ·ñÓÐÆå×Ó£¬³ÔÆåµÈµÈ
-             * È»ºó°´Å¥¿ØÖÆº¯Êýµ÷ÓÃÆå×Ó¿ØÖÆº¯ÊýµÈµÈ
-             * ÉèÆå×Ó¿ØÖÆº¯ÊýbuttonController(this->point, int* des);
-             * buttonController()º¯ÊýÉùÃ÷¹¹Ë¼:void buttonController(int* oldPoint, int* destination)
-             */
-    //        buttonController(point, des);
             return true;
         }
         else
             return false;
     }
-    else                        //ºÚ·½×ä       ×ßÆåÓÐÐ©ÎÊÌâ  ³¢ÊÔ»Ø×ßµÄÊ±ºò Æå×Ó×ø±êÃ»ÓÐ¸üÐÂµ«ÊÇ°´Å¥ÒÆ¶¯ÁË
+    else
     {
         if((point[0] == des[0] && des[1] > point[1]) || (point[1] == des[1] && point[1] >= 5) )
             return true;

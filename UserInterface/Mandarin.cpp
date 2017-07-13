@@ -18,8 +18,8 @@ bool Mandarin::setPoint(int *des, ChessController* controller) {
 }
 
 bool Mandarin::moveJudge(int *des, ChessController* controller) {
-    //ĞŞ¸Ä: ºá×İ×ø±ê·¶Î§
-    //1.Ê¿µÄÒÆ¶¯·¶Î§ÎªÖĞ¼äµÄÕı·½ĞÎ£¬ºá3~5 ×İ0~2 || 7~9¡£ÏÈÅĞ¶ÏÕâ¸öÌõ¼şÊÇ·ñ·ûºÏ
+    //ä¿®æ”¹: æ¨ªçºµåæ ‡èŒƒå›´
+    //1.å£«çš„ç§»åŠ¨èŒƒå›´ä¸ºä¸­é—´çš„æ­£æ–¹å½¢ï¼Œæ¨ª3~5 çºµ0~2 || 7~9ã€‚å…ˆåˆ¤æ–­è¿™ä¸ªæ¡ä»¶æ˜¯å¦ç¬¦åˆ
     if(des[0] >= 3 && des[0] <= 5 && (des[1] >= 0 && des[1] <= 2)||( des[1] >=7 && des[1]<=9 )  )
     {
         return abs(des[0] - point[0]) == 1 && abs(des[1] - point[1]) == 1;

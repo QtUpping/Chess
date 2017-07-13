@@ -21,6 +21,5 @@ bool King::moveJudge(int* des, ChessController* controller)
 {
     return abs(point[0] - des[0]) + abs(point[1] - des[1]) == 1
            && des[0] > 2 && des[0] < 6
-           && des[1] > 6 && des[1] < 10;
-
+           &&( (des[1] > 6 && des[1] < 10)  || (des[1] >=0 && des[1] < 3) ) ;
 }

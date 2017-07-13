@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/background">
+        <file>Onmyoji/1.jpg</file>
+        <file>Onmyoji/2-2.jpg</file>
+        <file>Onmyoji/4.jpg</file>
+    </qresource>
+</RCC>

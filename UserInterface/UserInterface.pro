@@ -5,7 +5,8 @@
 #-------------------------------------------------
 
 QT       += core gui
-
+QT       += network
+QT       +=multimedia
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = UserInterface
@@ -22,7 +23,10 @@ SOURCES += main.cpp\
     Knight.cpp \
     Mandarin.cpp \
     Pawn.cpp \
-    Rook.cpp
+    Rook.cpp \
+    client.cpp \
+    logindlg.cpp \
+    music_player.cpp
 
 HEADERS  += chessboard.h \
     AllChess.h \
@@ -34,12 +38,17 @@ HEADERS  += chessboard.h \
     Knight.h \
     Mandarin.h \
     Pawn.h \
-    Rook.h
+    Rook.h \
+    client.h \
+    logindlg.h \
+    music_player.h
 
-FORMS    += chessboard.ui
+FORMS    += chessboard.ui \
+    logindlg.ui
 
 RESOURCES += \
-    chessboard_and_chessman.qrc
+    chessboard_and_chessman.qrc \
+    backgroundimages.qrc
 
 DISTFILES += \
     Images/BishopB.GIF \

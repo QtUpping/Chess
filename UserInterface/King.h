@@ -11,7 +11,7 @@ class ChessController;
 class King :public Chessman
 {
 public:
-    King(int camp) : Chessman("˧", camp) {}
+    King(int camp) : Chessman("帅", camp) {}
     bool setPoint(int* des, ChessController* controller);
     bool moveJudge(int* des, ChessController* controller);
 };

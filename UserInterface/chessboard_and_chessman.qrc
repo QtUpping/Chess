@@ -30,5 +30,9 @@
         <file>Images/RookR.GIF</file>
         <file>Images/RookRS.GIF</file>
         <file>Images/rooks.GIF</file>
+        <file>Images/pause.png</file>
+        <file>Images/play.png</file>
+        <file>Images/login.jpg</file>
+        <file>Images/QRCode.png</file>
     </qresource>
 </RCC>

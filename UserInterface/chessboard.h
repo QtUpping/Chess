@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include "ChessController.h"
 #include "client.h"
+#include <QPushButton>
+#include "music_player.h"
+#include "logindlg.h"
 
 class ChessController;
 namespace Ui {
@@ -18,18 +21,20 @@ public:
     explicit ChessBoard(Client* client, QWidget *parent = 0);
     ~ChessBoard();
     void mousePressEvent(QMouseEvent *e);
-    //Ã¿´ÎÊó±êµã»÷ºóĞŞ¸ÄcoordinateµÄÖµ(³õÊ¼Îª0,0),Í¨¹ıgetCurCoordinateÌá¹©¸øÍâ²¿
+    //æ¯æ¬¡é¼ æ ‡ç‚¹å‡»åä¿®æ”¹coordinateçš„å€¼(åˆå§‹ä¸º0,0),é€šè¿‡getCurCoordinateæä¾›ç»™å¤–éƒ¨
     void getConversionCoordinate(int *point);
 
-    //ĞŞ¸Ä Ã¿´Î½øĞĞÓĞĞ§µã»÷ÊÇ½«×ø±êÌá¹©¸øÍâ²¿  µã»÷Êó±ê»òÕß°´Å¥¾ù¸üĞÂ×ø±ê //»òÕß¸ÄÎªÃ¿´ÎÒÆ¶¯Ö®ºó¸üĞÂ×ø±ê
+    //ä¿®æ”¹ æ¯æ¬¡è¿›è¡Œæœ‰æ•ˆç‚¹å‡»æ˜¯å°†åæ ‡æä¾›ç»™å¤–éƒ¨  ç‚¹å‡»é¼ æ ‡æˆ–è€…æŒ‰é’®å‡æ›´æ–°åæ ‡ //æˆ–è€…æ”¹ä¸ºæ¯æ¬¡ç§»åŠ¨ä¹‹åæ›´æ–°åæ ‡
     void coordinateConversion(int *XY);
 
-//    bool validClick(int *XY);         //ÅĞ¶Ïµã»÷ÊÇ·ñÔÚÆåÅÌÄÚ  ÔİÊ±ÎŞ¶¨Òå
-    bool Capture(int *XY, int count);   //Í¨¹ı·µ»ØÖµ¿ØÖÆ±»³ÔÆå×ÓÊ§Ğ§
+//    bool validClick(int *XY);         //åˆ¤æ–­ç‚¹å‡»æ˜¯å¦åœ¨æ£‹ç›˜å†…  æš‚æ—¶æ— å®šä¹‰
+    bool Capture(int *XY, int count);   //é€šè¿‡è¿”å›å€¼æ§åˆ¶è¢«åƒæ£‹å­å¤±æ•ˆ
 
-     //½«¶Ô·½ÒÆ¶¯µÄÆåÅÌ×ø±ê×ª»¯ÎªÓë×Ô¼ºÆåÅÌÉÏ×ø±êÏµ¶ÔÓ¦µÄ×ø±ê
+     //å°†å¯¹æ–¹ç§»åŠ¨çš„æ£‹ç›˜åæ ‡è½¬åŒ–ä¸ºä¸è‡ªå·±æ£‹ç›˜ä¸Šåæ ‡ç³»å¯¹åº”çš„åæ ‡
     void boardCoordinateConversion(int *des);
-    //ÔÚ·¢ËÍ×ø±êµÄÊ±ºòµ÷ÓÃ
+    //åœ¨å‘é€åæ ‡çš„æ—¶å€™è°ƒç”¨
+
+    void boardToReal(int *point);
 
 private slots:
     void on_RCannon_clicked();
@@ -68,36 +73,62 @@ private slots:
 //    void noArgTrans();
     void react(QString chessPoint);
 
+    void on_sendButton_clicked();
+
+    void on_withdraw_clicked();
+
+    void on_Play_clicked();
+
+
+    void on_pushButton_clicked();
+
+    void on_surrender_clicked();
+
+signals:
+    void clicked();
+public slots:
+    void mousePressEventSlot();
+
 private:
     Client* myClient;
     Ui::ChessBoard *ui;
-    int coordinate[2];              //¼ÇÂ¼×ø±ê  ÔÚmousePressEvent¸ü¸Ä  getCurCoordinateÌá¹©¸øÀàÍâÊ¹ÓÃ
-    int oldPoint[2];                  //Ç°Ò»µã×ø±ê  ÔİÊ±»¹Ã»ÓÃÉÏ
+    int coordinate[2];              //è®°å½•åæ ‡  åœ¨mousePressEventæ›´æ”¹  getCurCoordinateæä¾›ç»™ç±»å¤–ä½¿ç”¨
+    int oldPoint[2];                  //å‰ä¸€ç‚¹åæ ‡  æš‚æ—¶è¿˜æ²¡ç”¨ä¸Š
     void convertFromQSToChar(QString str, char* charArr);
     void convertFromCharToIntArr(char* charArr, int* intArr);
     void convertFromIntToChar(int* intArr, char* charArr);
     QString convertFromCharToQS(char* charArr);
     void convertFromChessToReal(int* des);
+    int myCamp;
+    logindlg* login;
+    int status;
+    music_player * m;
+    QPushButton * findBtn;
+    int QRCode;
 };
 
-/*------ÈôÄÜÊµÏÖ¹¦ÄÜÔòÒÆµ½ÁíÒ»¸öÎÄ¼şÖĞ--------------*/
 class MoveRecord
 {
 private:
-    int Point[2];
-                                                                    //*************Á½¸öboolÖµ¾ùÎª¼ÙÊ±Îª¿ÉÒÆ¶¯×´Ì¬(Ñ¡ÖĞ×´Ì¬),  µÈ´ıÏÂÒ»´Îµã»÷Ê±¿ØÖÆ°´Å¥ÒÆ¶¯********************//
-    bool MoveStatu;                                     //¼ÇÂ¼×´Ì¬ ³õÊ¼Îªfalse µÚÒ»´Îµã»÷(ÔÚchoose_or_moveÖĞÊ¹ÓÃ)¸ÄÎªtrue ¼ÇÎªÑ¡ÖĞ, µÚ¶ş´Î¸ÄÎªfalse ¼ÇÎªÒÆ¶¯ ÆæÊı´ÎÑ¡ÖĞ Å¼Êı´ÎÒÆ¶¯
-    bool doubleStatu;                                   //Ö»ÓÃÒ»¸ö±äÁ¿¼à¿Ø  »á³öÏÖ¿ÉÒÆ¶¯×´Ì¬ÏÂ°´Å¥¿ÉÒÔ¶à´ÎÒÆ¶¯µÄÇé¿ö  ¿¼ÂÇ¼ÓÒ»¸öÊı¾İ  Ö»ÔÚµã»÷°´Å¥Ê±¸Ä±ä doubleStatu³õÊ¼ÎªÕæ ÒÔ¿ØÖÆµÚÒ»´Îµã»÷¿ÕµØ²»ÄÜÒÆ¶¯
-    int MovePieceCounter;                            //¼ÇÂ¼µÚ¼¸¸öÆå×Ó´¦ÓÚ¿ÉÒÆ¶¯×´Ì¬
+                                                         //*************ä¸¤ä¸ªboolå€¼å‡ä¸ºå‡æ—¶ä¸ºå¯ç§»åŠ¨çŠ¶æ€(é€‰ä¸­çŠ¶æ€),  ç­‰å¾…ä¸‹ä¸€æ¬¡ç‚¹å‡»æ—¶æ§åˆ¶æŒ‰é’®ç§»åŠ¨********************//
+    bool MoveStatu;                          //è®°å½•çŠ¶æ€ åˆå§‹ä¸ºfalse ç¬¬ä¸€æ¬¡ç‚¹å‡»(åœ¨choose_or_moveä¸­ä½¿ç”¨)æ”¹ä¸ºtrue è®°ä¸ºé€‰ä¸­, ç¬¬äºŒæ¬¡æ”¹ä¸ºfalse è®°ä¸ºç§»åŠ¨ å¥‡æ•°æ¬¡é€‰ä¸­ å¶æ•°æ¬¡ç§»åŠ¨
+    bool doubleStatu;                        //åªç”¨ä¸€ä¸ªå˜é‡  ä¼šå‡ºç°å¯ç§»åŠ¨çŠ¶æ€ä¸‹æŒ‰é’®å¯ä»¥å¤šæ¬¡ç§»åŠ¨çš„æƒ…å†µ  åŠ å…¥doubleStatuåˆå§‹ä¸ºçœŸ   åªåœ¨ç‚¹å‡»æŒ‰é’®æ—¶æ”¹å˜, è¾¾åˆ°é€‰ä¸­ååªèƒ½ç§»åŠ¨ä¸€æ¬¡æŒ‰é’®çš„ç›®çš„
+    int MovePieceCounter;              //è®°å½•å¤„äºå¯ç§»åŠ¨çŠ¶æ€æ£‹å­çš„åºå·
+    int lastMovePieceCounter;              //è®°å½•è¢«åƒæ£‹å­çš„åºå·
 public:
     MoveRecord();
+    int getLastCounter();
+    void setLastCounter(int count);
     void setCounter(int count);
     int getCounter();
-    void resetStatuT();                                       //ÓÃÓÚÔÚÊó±êµã»÷ÊÂ¼şÖĞ½«DBSÉèÎªÕæ
+    void setMoveStatu();
+    void resetMoveStatu();
+    void setDoubleStatu();
+    void setStatu();
+    void resetStatuT();                                       //ç”¨äºåœ¨é¼ æ ‡ç‚¹å‡»äº‹ä»¶ä¸­å°†DBSè®¾ä¸ºçœŸ
     bool getDBStatu();
-    bool getStatu();                                          //Ìá¹©MoveStatu×´Ì¬µÄ½Ó¿Ú
-    void Choose_or_Move_Judge(int count);    //¸Ä±ä×´Ì¬º¯Êı, Ã¿´ÎÊó±êµã»÷°´Å¥¾ù¸üĞÂ×´Ì¬
-    int *updateClickCoordinate(int *XY);        //¸üĞÂ×ø±êpoint   È»¶øpointµÄ×ø±êÃ»ÓĞÓÃÉÏ ¿´ÆğÀ´Óëcoordinate¹¦ÄÜÖØ¸´
+    bool getStatu();                                          //æä¾›MoveStatuçŠ¶æ€çš„æ¥å£
+    void Choose_or_Move_Judge(int count);    //æ”¹å˜çŠ¶æ€å‡½æ•°, æ¯æ¬¡é¼ æ ‡ç‚¹å‡»æŒ‰é’®å‡æ›´æ–°çŠ¶æ€
 };
 
 #endif // CHESSBOARD_H

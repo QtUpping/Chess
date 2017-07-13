@@ -3,7 +3,7 @@
 //
 
 
-//ChessControllerÀà£¬ÓÃÓÚ¶ÔËùÓĞµÄÆå×Ó¶ÔÏó½øĞĞ¹ÜÀí
+//ChessControllerç±»ï¼Œç”¨äºå¯¹æ‰€æœ‰çš„æ£‹å­å¯¹è±¡è¿›è¡Œç®¡ç†
 
 
 #ifndef MYPART_CHESSCONTROLLER_H
@@ -12,7 +12,7 @@
 #include "AllChess.h"
 
 class ChessController {
-    //¸Ä¶¯: ½«ËùÓĞË½ÓĞ³ÉÔ±¸ÄÎª¹«ÓĞ
+    //æ”¹åŠ¨: å°†æ‰€æœ‰ç§æœ‰æˆå‘˜æ”¹ä¸ºå…¬æœ‰
 public:
     King* king[2];
     Bishop* bishop[4];
@@ -21,20 +21,23 @@ public:
     Cannon* cannon[4];
     Rook* rook[4];
     Pawn* pawn[10];
-    Chessman* piece[32];//´¢´æËùÓĞÆå×Ó¶ÔÏóµÄÖ¸Õë
+    Chessman* piece[32];//å‚¨å­˜æ‰€æœ‰æ£‹å­å¯¹è±¡çš„æŒ‡é’ˆ
 
     ChessController();
     void showPieces();
     int obstaclesOnLine(int* point, int* des);
-    Chessman* whetherExist(int* des);   //²ÎÊıÎªÖÕµã×ø±ê£¬ÅĞ¶ÏÖÕµãÊÇ·ñÓĞÆå×Ó
-    bool move(int* point, int* des);    //½ÓÊÕÒÆ¶¯²ÎÊı£¬µ÷ÓÃ¶ÔÏósetPointÊµÏÖÆå×ÓµÄÒÆ¶¯
+    Chessman* whetherExist(int* des);   //å‚æ•°ä¸ºç»ˆç‚¹åæ ‡ï¼Œåˆ¤æ–­ç»ˆç‚¹æ˜¯å¦æœ‰æ£‹å­
+    bool move(int* point, int* des);    //æ¥æ”¶ç§»åŠ¨å‚æ•°ï¼Œè°ƒç”¨å¯¹è±¡setPointå®ç°æ£‹å­çš„ç§»åŠ¨
     void show();
     int posInArr(int* des);
 
+    bool KingToKing();
+    bool KingToKing( int *des, Chessman* k);
 
 
-    //ÏÖÓĞÆå×ÓÅĞ¶Ïº¯Êı¸ù¾İÏÂ·½ºì·½×ø±êĞ´µÄ, ÈôÒªºÚ×ÓÄÜÊ¹ÓÃÓ¦×ª»¯×ø±ê
-    //Ìí¼Ó×ø±ê×ª»»º¯Êı
+
+    //ç°æœ‰æ£‹å­åˆ¤æ–­å‡½æ•°æ ¹æ®ä¸‹æ–¹çº¢æ–¹åæ ‡å†™çš„, è‹¥è¦é»‘å­èƒ½ä½¿ç”¨åº”è½¬åŒ–åæ ‡
+    //æ·»åŠ åæ ‡è½¬æ¢å‡½æ•°
     void CampCoordinateConversion(int *des);
 };
 

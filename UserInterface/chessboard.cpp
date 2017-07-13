@@ -6,9 +6,11 @@
 #include "AllChess.h"
 #include "Chessman.h"
 #include <string>
+#include <QSound>
+#include <QMessageBox>
 
-static MoveRecord *click = new MoveRecord;      //¥¥Ω®“ª∏ˆMoveRecordµƒ¿‡∂‘œÛ,  Õ®π˝÷∏’Îµ˜”√choose_or_move∫Ø ˝
-static QPushButton *ChessmanButton[32] = {0};    //¥¥Ω®“ª∏ˆPushButton÷∏’Î¥Ê∑≈À˘”–∞¥≈•µÿ÷∑
+static MoveRecord *click = new MoveRecord;      //ÂàõÂª∫‰∏Ä‰∏™MoveRecordÁöÑÁ±ªÂØπË±°,  ÈÄöËøáÊåáÈíàË∞ÉÁî®choose_or_moveÂáΩÊï∞
+static QPushButton *ChessmanButton[32] = {0};    //ÂàõÂª∫‰∏Ä‰∏™PushButtonÊåáÈíàÂ≠òÊîæÊâÄÊúâÊåâÈíÆÂú∞ÂùÄ
 
 static ChessController *tmp = new ChessController;
 
@@ -19,7 +21,6 @@ ChessBoard::ChessBoard(Client* client, QWidget *parent) :
 {
     coordinate[0]=oldPoint[0]=coordinate[1]=oldPoint[1]=0;
     ui->setupUi(this);
-
     ChessmanButton[0]=ui->RRook;
     ChessmanButton[1]=ui->RKnight;
     ChessmanButton[2]=ui->RBIshop;
@@ -36,7 +37,6 @@ ChessBoard::ChessBoard(Client* client, QWidget *parent) :
     ChessmanButton[13]=ui->Rpawn3;
     ChessmanButton[14]=ui->RPawn4;
     ChessmanButton[15]=ui->RPawn5;
-
     ChessmanButton[16]=ui->BPawn1;
     ChessmanButton[17]=ui->BPawn2;
     ChessmanButton[18]=ui->BPawn3;
@@ -53,76 +53,51 @@ ChessBoard::ChessBoard(Client* client, QWidget *parent) :
     ChessmanButton[29]=ui->BBishop2;
     ChessmanButton[30]=ui->BKnight2;
     ChessmanButton[31]=ui->BRook2;
-
-//∏˘æ›’Û”™≥ı ºªØ∞¥≈•œ‘ æ≤ªÕ¨µƒ∆Â◊”
-//–Ë“™ªÒ»°µ±«∞Œ™∫Ï∑Ω∫⁄∑Ω
-    QIcon R1( ":/ChessImages/Images/RookR.GIF" );
-    ChessmanButton[0]->setIcon(R1);
-    ChessmanButton[0]->setIconSize(QSize(40,40) );
-    ChessmanButton[0]->setFlat(true);
-    ChessmanButton[8]->setIcon(R1);
-    ChessmanButton[8]->setIconSize(QSize(40,40) );
-    ChessmanButton[8]->setFlat(true);
-
-    QIcon R2( ":/ChessImages/Images/KnightR.GIF" );
-    ChessmanButton[1]->setIcon(R2);
-    ChessmanButton[1]->setIconSize(QSize(40,40) );
-    ChessmanButton[1]->setFlat(true);
-    ChessmanButton[7]->setIcon(R2);
-    ChessmanButton[7]->setIconSize(QSize(40,40) );
-    ChessmanButton[7]->setFlat(true);
-
-    QIcon R3( ":/ChessImages/Images/RB.GIF" );
-    ChessmanButton[2]->setIcon(R3);
-    ChessmanButton[2]->setIconSize(QSize(40,40) );
-    ChessmanButton[2]->setFlat(true);
-    ChessmanButton[6]->setIcon(R3);
-    ChessmanButton[6]->setIconSize(QSize(40,40) );
-    ChessmanButton[6]->setFlat(true);
-
-    QIcon R4( ":/ChessImages/Images/MandarinR.GIF" );
-    ChessmanButton[3]->setIcon(R4);
-    ChessmanButton[3]->setIconSize(QSize(40,40) );
-    ChessmanButton[3]->setFlat(true);
-    ChessmanButton[5]->setIcon(R4);
-    ChessmanButton[5]->setIconSize(QSize(40,40) );
-    ChessmanButton[5]->setFlat(true);
-
-    QIcon R5( ":/ChessImages/Images/KingR.GIF" );
-    ChessmanButton[4]->setIcon(R5);
-    ChessmanButton[4]->setIconSize(QSize(40,40) );
-    ChessmanButton[4]->setFlat(true);
-
-    QIcon R6( ":/ChessImages/Images/CannonR.GIF" );
-    ChessmanButton[9]->setIcon(R6);
-    ChessmanButton[9]->setIconSize(QSize(40,40) );
-    ChessmanButton[9]->setFlat(true);
-    ChessmanButton[10]->setIcon(R6);
-    ChessmanButton[10]->setIconSize(QSize(40,40) );
-    ChessmanButton[10]->setFlat(true);
-
-    QIcon R7( ":/ChessImages/Images/PawnR.GIF" );
-    for(int i=11; i<16;++i)
-    {
-        ChessmanButton[i]->setIcon(R7);
-        ChessmanButton[i]->setIconSize(QSize(40,40) );
-        ChessmanButton[i]->setFlat(true);
-    }
-
     myClient = client;
     connect(myClient, SIGNAL(sendPoint(QString)), this, SLOT(react(QString)));
-//    connect(myClient, SIGNAL(readyRead()), this, SLOT(noArgTrans()));
+
+    m=new music_player;
+    QIcon ico(":/ChessImages/Images/play.png");
+    findBtn=new QPushButton(this);
+    findBtn->setIcon(ico);
+    findBtn->setFlat(true);
+    findBtn->raise();
+    status=0;
+    m->Play_stop();
+    connect(findBtn,SIGNAL(clicked()),this,SLOT(mousePressEventSlot()));
+    login = new logindlg(myClient, this);
+    login->setModal(true);
+    login->show();
+    QRCode = 0;
+    ui->QRCodeLabel->hide();
+    ui->Play->setEnabled(false);
+}
+
+
+void ChessBoard::mousePressEventSlot()
+{
+    if(status==1)
+    {
+        m->Play_stop();
+        findBtn->setIcon(QIcon(":/ChessImages/Images/play.png"));
+        status=0;
+    }
+    else
+    {
+        m->Play_in_loop();
+        findBtn->setIcon(QIcon(":/ChessImages/Images/pause.png"));
+        status=1;
+    }
 }
 
 QString ChessBoard::convertFromCharToQS(char *charArr)
 {
-    qDebug("move of chessman succeed");
     QString str = QString(QLatin1String(charArr));
     return str;
-//    str = new QString(QLatin1String(charArr));
 }
 
 void ChessBoard::convertFromChessToReal(int *des)
+
 {
     int ori[2]={395,250};
         int h=50,w=50;
@@ -138,7 +113,6 @@ void ChessBoard::convertFromIntToChar(int *intArr, char *charArr)
 void ChessBoard::convertFromQSToChar(QString str, char* charArr)
 {
     QByteArray tmp = str.toLatin1();
-//    *charArr = tmp.data();
     strcpy(charArr, tmp.data());
 }
 
@@ -159,43 +133,215 @@ void ChessBoard::convertFromCharToIntArr(char *charArr, int *intArr)
 
 void ChessBoard::react(QString chessPoint)
 {
-    char tmpCh[5] = {0};
-    int Point[4], old[2] = {0}, des[2] = {0};
-    int posInArr = 0, oldPosInArr = 0;
-    Chessman* tmpChessman = NULL;
-    Chessman* enemy = NULL;
-    convertFromQSToChar(chessPoint, tmpCh);
-    convertFromCharToIntArr(tmpCh, Point);
-    qDebug("react");
-    old[0] = Point[0];
-    old[1] = Point[1];
-    des[0] = Point[2];
-    des[1] = Point[3];
-    enemy = tmp->whetherExist(des);
-    if(enemy == NULL)
+    if(chessPoint.startsWith("point"))
     {
-        tmpChessman = tmp->whetherExist(old);
-        tmpChessman->setPoint(des, tmp);
-        qDebug("react1");
-        posInArr = tmp->posInArr(des);
-        qDebug("react2");
-        convertFromChessToReal(des);
-        qDebug("react3");
-        ChessmanButton[posInArr]->move(des[0], des[1]);
+        char tmpCh[5] = {0};
+        int Point[4], old[2] = {0}, des[2] = {0};
+        int posInArr = 0, oldPosInArr = 0;
+        Chessman* tmpChessman = NULL;
+        Chessman* enemy = NULL;
+        QString str = chessPoint.mid(5);
+        convertFromQSToChar(str, tmpCh);
+        convertFromCharToIntArr(tmpCh, Point);
+        old[0] = Point[0];
+        old[1] = Point[1];
+        des[0] = Point[2];
+        des[1] = Point[3];
+        enemy = tmp->whetherExist(des);
+
+        click->setDoubleStatu();
+        if(enemy == NULL)
+        {
+            tmpChessman = tmp->whetherExist(old);
+            tmpChessman->setPoint(des, tmp);
+            posInArr = tmp->posInArr(des);
+            convertFromChessToReal(des);
+            ChessmanButton[posInArr]->move(des[0], des[1]);
+        }
+        else
+        {
+               Chessman* oldChessman = tmp->whetherExist(old);
+               Chessman* desChessman = tmp->whetherExist(des);
+               oldPosInArr = tmp->posInArr(old);
+               posInArr = tmp->posInArr(des);
+               oldChessman->setPoint(des, tmp);
+               ChessmanButton[posInArr]->hide();
+               ChessmanButton[posInArr]->setEnabled(false);
+
+               if(posInArr == 4 )
+               {
+                   QMessageBox lose(QMessageBox::Information, tr("Ê∏∏ÊàèÁªìÊùü"), tr("‰Ω†Ëæì‰∫Ü!"), QMessageBox::Yes);
+                   if(lose.exec() == QMessageBox::Yes)
+                   {
+                       QByteArray outcome = "outcome0";
+                       myClient->sendMesg(outcome);
+                   }
+               }
+               int tmpPoint[2] = {-1, -1};
+               desChessman->forceSetPoint(tmpPoint);
+               convertFromChessToReal(des);
+               ChessmanButton[oldPosInArr]->move(des[0], des[1]);
+        }
     }
-    else
+    else if(chessPoint.startsWith("camp"))
     {
-        Chessman* oldChessman = tmp->whetherExist(old);
-        Chessman* desChessman = tmp->whetherExist(des);
-        oldPosInArr = tmp->posInArr(old);
-        posInArr = tmp->posInArr(des);
-        oldChessman->setPoint(des, tmp);
-        ChessmanButton[posInArr]->setEnabled(false);
-        ChessmanButton[posInArr]->hide();
-        int tmpPoint[2] = {-1, -1};
-        desChessman->forceSetPoint(tmpPoint);
-        convertFromChessToReal(des);
-        ChessmanButton[oldPosInArr]->move(des[0], des[1]);
+        if(chessPoint.mid(4,1).toInt() == 0)
+        {
+            myCamp = 0;
+            click->setDoubleStatu();
+            QIcon R1( ":/ChessImages/Images/RookR.GIF" );
+            ChessmanButton[0]->setIcon(R1);
+            ChessmanButton[8]->setIcon(R1);
+            QIcon R2( ":/ChessImages/Images/KnightR.GIF" );
+            ChessmanButton[1]->setIcon(R2);
+            ChessmanButton[7]->setIcon(R2);
+            QIcon R3( ":/ChessImages/Images/RB.GIF" );
+            ChessmanButton[2]->setIcon(R3);
+            ChessmanButton[6]->setIcon(R3);
+            QIcon R4( ":/ChessImages/Images/MandarinR.GIF" );
+            ChessmanButton[3]->setIcon(R4);
+            ChessmanButton[5]->setIcon(R4);
+            QIcon R5( ":/ChessImages/Images/KingR.GIF" );
+            ChessmanButton[4]->setIcon(R5);
+            QIcon R6( ":/ChessImages/Images/CannonR.GIF" );
+            ChessmanButton[9]->setIcon(R6);
+            ChessmanButton[10]->setIcon(R6);
+            QIcon R7( ":/ChessImages/Images/PawnR.GIF" );
+            for(int i=11; i<16;++i)
+            {
+                ChessmanButton[i]->setIcon(R7);
+            }
+            QIcon B1(":/ChessImages/Images/Rook.GIF");
+            ChessmanButton[23]->setIcon(B1);
+            ChessmanButton[31]->setIcon(B1);
+            QIcon B2(":/ChessImages/Images/Knight.GIF");
+            ChessmanButton[24]->setIcon(B2);
+            ChessmanButton[30]->setIcon(B2);
+            QIcon B3(":/ChessImages/Images/BishopB.GIF");
+            ChessmanButton[25]->setIcon(B3);
+            ChessmanButton[29]->setIcon(B3);
+            QIcon B4(":/ChessImages/Images/Mandarin.GIF");
+            ChessmanButton[26]->setIcon(B4);
+            ChessmanButton[28]->setIcon(B4);
+            QIcon B5(":/ChessImages/Images/King.GIF");
+            ChessmanButton[27]->setIcon(B5);
+            QIcon B6(":/ChessImages/Images/Cannon.GIF");
+            ChessmanButton[21]->setIcon(B6);
+            ChessmanButton[22]->setIcon(B6);
+            QIcon B7(":/ChessImages/Images/pawn.GIF");
+            for(int i = 16; i<21;++i)
+            {
+                ChessmanButton[i]->setIcon(B7);
+            }
+        }
+        else
+        {
+            myCamp = 1;
+            QIcon R1( ":/ChessImages/Images/RookR.GIF" );
+            ChessmanButton[23]->setIcon(R1);
+            ChessmanButton[31]->setIcon(R1);
+            QIcon R2( ":/ChessImages/Images/KnightR.GIF" );
+            ChessmanButton[24]->setIcon(R2);
+            ChessmanButton[30]->setIcon(R2);
+            QIcon R3( ":/ChessImages/Images/RB.GIF" );
+            ChessmanButton[25]->setIcon(R3);
+            ChessmanButton[29]->setIcon(R3);
+            QIcon R4( ":/ChessImages/Images/MandarinR.GIF" );
+            ChessmanButton[26]->setIcon(R4);
+            ChessmanButton[28]->setIcon(R4);
+            QIcon R5( ":/ChessImages/Images/KingR.GIF" );
+            ChessmanButton[27]->setIcon(R5);
+            QIcon R6( ":/ChessImages/Images/CannonR.GIF" );
+            ChessmanButton[21]->setIcon(R6);
+            ChessmanButton[22]->setIcon(R6);
+            QIcon R7( ":/ChessImages/Images/PawnR.GIF" );
+            for(int i=16; i<21;++i)
+            {
+                ChessmanButton[i]->setIcon(R7);
+            }
+            QIcon B1(":/ChessImages/Images/Rook.GIF");
+            ChessmanButton[0]->setIcon(B1);
+            ChessmanButton[8]->setIcon(B1);
+            QIcon B2(":/ChessImages/Images/Knight.GIF");
+            ChessmanButton[1]->setIcon(B2);
+            ChessmanButton[7]->setIcon(B2);
+            QIcon B3(":/ChessImages/Images/BishopB.GIF");
+            ChessmanButton[2]->setIcon(B3);
+            ChessmanButton[6]->setIcon(B3);
+            QIcon B4(":/ChessImages/Images/Mandarin.GIF");
+            ChessmanButton[3]->setIcon(B4);
+            ChessmanButton[5]->setIcon(B4);
+            QIcon B5(":/ChessImages/Images/King.GIF");
+            ChessmanButton[4]->setIcon(B5);
+            QIcon B6(":/ChessImages/Images/Cannon.GIF");
+            ChessmanButton[9]->setIcon(B6);
+            ChessmanButton[10]->setIcon(B6);
+            QIcon B7(":/ChessImages/Images/pawn.GIF");
+            for(int i = 11; i<16;++i)
+            {
+                ChessmanButton[i]->setIcon(B7);
+            }
+        }
+        ui->Play->hide();
+        ui->Play->setEnabled(false);
+        int do1, do2;
+        do1 = chessPoint.indexOf(",");
+        do2 = chessPoint.indexOf(",", do1+1);
+        QString account = chessPoint.mid(5, do1-5);
+        QString win = chessPoint.mid(do1+1, do2-do1-1);
+        QString lose = chessPoint.mid(do2+1);
+        ui->theName->setText(account);
+        ui->theWin->setText(win);
+        ui->theLose->setText(lose);
+    }
+    else if(chessPoint.startsWith("account"))
+    {
+        if(chessPoint.mid(7,1).toInt() == 0)
+                {
+                    login = new logindlg(myClient, this);
+                    login->setModal(true);
+                    login->show();
+                }
+        else
+        {
+            int do1, do2, do3;
+            do1 = chessPoint.indexOf(",");
+            do2 = chessPoint.indexOf(",", do1+1);
+            do3 = chessPoint.indexOf(",", do2+1);
+            QString account = chessPoint.mid(8, do1-8);
+            QString win = chessPoint.mid(do1+1, do2-do1-1);
+            QString lose;
+            if(do3 != -1)
+            {
+                lose = chessPoint.mid(do2+1, do3-do2-1);
+            }
+            else
+                lose = chessPoint.mid(do2+1);
+            ui->myName->setText(account);
+            ui->myWin->setText(win);
+            ui->myLose->setText(lose);
+            ui->Play->setEnabled(true);
+            if(do3 != -1)
+            {
+                QMessageBox play(QMessageBox::Information,tr("ÊèêÁ§∫"),tr("ÂåπÈÖçÊàêÂäüÔºåËØ∑ÂºÄÂßãÊ∏∏Êàè"),QMessageBox::Yes);
+                if(play.exec() == QMessageBox::Yes);
+            }
+        }
+    }
+    else if(chessPoint.startsWith("conversation"))
+    {
+        QString mesFromOth = chessPoint.mid(12);
+        ui->MesRecord->append(mesFromOth);
+    }
+    else if(chessPoint.startsWith(",start"))
+    {
+        QMessageBox play(QMessageBox::Information,tr("ÊèêÁ§∫"),tr("ÂåπÈÖçÊàêÂäüÔºåËØ∑ÂºÄÂßãÊ∏∏Êàè"),QMessageBox::Yes);
+        if(play.exec() == QMessageBox::Yes);
+    }
+    else if(chessPoint.startsWith("surrender"))
+    {
+        QMessageBox box(QMessageBox::Information,tr("ÂØπÊñπËÆ§Ëæì"),tr("‰∫≤ÔºåÂØπÊñπ‰∏ã‰∏çËøá‰Ω†ÔºåËÆ§ËæìÂï¶(„ÄÉÔø£œâÔø£„ÄÉ)"),QMessageBox::Yes);
+        if(box.exec() == QMessageBox::Yes);
     }
 }
 
@@ -209,131 +355,99 @@ void ChessBoard::mousePressEvent(QMouseEvent *e)
     int originalXYcur[2] = {e->x(), e->y()};
     int XY[2]={e->x(), e->y()};
     coordinateConversion(XY);
-
-    //√ª”√…œµƒ”Ôæ‰  øº¬«…æ≥˝
-    click->updateClickCoordinate(originalXYcur);
-
-//    if( click->getStatu() == false && click->getDBStatu() == false)
-//    {
-//        qDebug()<<"mouse at "<<originalXY[0]<<","<<originalXY[1];
-//        // µœ÷µ•ª˜∞¥≈•∫Û◊ﬂµΩø’µÿ
-//        //∆´“∆20∏ˆœÒÀÿµ„ π∞¥≈•¥¶”⁄µ„ª˜¥¶’˝÷–  ∞¥≈•¥Û–°40*40
-//          ChessmanButton[ click->getCounter()-1 ]->move(originalXY[0]-20, originalXY[1]-20);
-//    }
-//    click->resetStatuT();
-
-    if( click->getStatu() == false && click->getDBStatu() == false)
+    if(  (originalXYcur[0]>325 && originalXYcur[0]<830) && (originalXYcur[1]>223 && originalXYcur[1]<735)  )  //ÁÇπÂáªÂú®Ê£ãÁõòÂÜÖ
     {
-//        qDebug()<<"Mouse at "<<originalXYcur[0]<<","<<originalXYcur[1];
-        qDebug()<<"Button tried to move to ("<<coordinate[0]<<","<<coordinate[1]<<")";
-
-       int *lastpoint = tmp->piece[ click->getCounter()-1 ]->getPoint();
-        //”… π”√ tmp->piece[ click->getCounter()-1 ]->setPoint(coordinate, tmp) ∏ƒŒ™ π”√tmp->move(lastpoint ,coordinate)
-       qDebug("lastpoint in mouseEvent is (%d,%d)",lastpoint[0],lastpoint[1]);
-        if( tmp->move(lastpoint ,coordinate)  )
+        if( click->getStatu() == false && click->getDBStatu() == false)
         {
-            char charArr[5] = {0};
-//            QString* str = NULL;
-            QString mes;
-            Chessman* tmpChessman = NULL;
-            tmpChessman = tmp->whetherExist(lastpoint);
-            charArr[0] = tmpChessman->getOldPoint()[0] + 48;
-            charArr[1] = tmpChessman->getOldPoint()[1] + 48;
-            charArr[2] = coordinate[0] + 48;
-            charArr[3] = coordinate[1] + 48;
-            mes = convertFromCharToQS(charArr);
-//            mes = *str;
-            qDebug("mousePressEvent   %d, %d, %d, %d", tmpChessman->getOldPoint()[0], tmpChessman->getOldPoint()[1], coordinate[0], coordinate[1]);
-//            qDebug()<<mes;
-            myClient->sendMesg(mes);
-           qDebug()<<"Button arrived at "<<coordinate[0]<<","<<coordinate[1];
-          ChessmanButton[ click->getCounter()-1 ]->move(originalXYcur[0]-20, originalXYcur[1]-20);
-//          click->resetStatuT();
+           int *lastpoint = tmp->piece[ click->getCounter()-1 ]->getPoint();
+            if( tmp->move(lastpoint ,coordinate)  )             //Ëã•ÁßªÂä®Á¨¶ÂêàËßÑÂàô, ÂàôÊú¨Âè•ÂÖàÊõ¥Êñ∞Ê£ãÂ≠êÂØπË±°ÁöÑÂùêÊ†áÂπ∂ËøîÂõûÁúü , ËøõÂÖ•ifÂêéÂºÄÂßãÁßªÂä®ÊåâÈíÆÂùêÊ†á
+            {
+                char charArr[10] = "point";
+                QString mes;
+                Chessman* tmpChessman = NULL;
+                tmpChessman = tmp->whetherExist(lastpoint);
+                int newArr[5]={ tmpChessman->getOldPoint()[0], tmpChessman->getOldPoint()[1], coordinate[0],  coordinate[1] };
+                boardCoordinateConversion(newArr);
+                charArr[5] = newArr[0] + 48;
+                charArr[6] = newArr[1] + 48;
+                charArr[7] = newArr[2] + 48;
+                charArr[8] = newArr[3] + 48;
+                mes = convertFromCharToQS(charArr);
+                QByteArray qba = mes.toLatin1();
+                myClient->sendMesg(qba);
+                int realPoint[2];
+                getConversionCoordinate(realPoint);
+                boardToReal(realPoint);
+                ChessmanButton[ click->getCounter()-1 ]->move(realPoint[0], realPoint[1]);
+
+                QSound::play("luozi.wav");
+                click->resetStatuT();
+            }
         }
+        click->resetMoveStatu();
     }
-    click->resetStatuT();
-
-    /********¥¥Ω®◊¯±Í∞¥≈•**********/
-    QPushButton  *btn = new QPushButton(this);
-    btn->setText( tr( "(%1,%2)").arg(e->x()).arg(e->y() ) );
-    btn->show();
-    QPushButton *b2 = new QPushButton(this);
-    b2->setText( tr("(%1,%2)").arg(coordinate[0]).arg(coordinate[1] ) );
-    b2->move(0,50);
-    b2->show();
 }
-
-//øÿ÷∆…œ“ª¥Œ—°÷–∞¥≈•“∆∂ØµΩ±æ¥Œµ„ª˜∞¥≈•Œª÷√  Ω®“È∏ƒ∫Ø ˝√˚
+//ÊéßÂà∂‰∏ä‰∏ÄÊ¨°ÈÄâ‰∏≠ÊåâÈíÆÁßªÂä®Âà∞Êú¨Ê¨°ÁÇπÂáªÊåâÈíÆ‰ΩçÁΩÆ
 bool ChessBoard::Capture(int *XY,int count)
 {
     if(  click->getStatu() == true  )
     {
+        if(count >= 16)
+            return false;
          click->setCounter(count);
-         // ‰≥ˆ”√  º«µ√…æ*********************************
-        qDebug()<<click->getCounter();
          return false;
     }
-    else
+    else if(click->getDBStatu() == false)
     {
-//      ChessmanButton[click->getCounter()-1]->move(XY[0], XY[1]);
-//tmp->piece[ click->getCounter() -1] ->setPoint(XY,tmp)
-
         int *lastpoint = tmp->piece[ click->getCounter()-1 ]->getPoint();
-        //”… π”√ tmp->piece[ click->getCounter()-1 ]->setPoint(coordinate, tmp) ∏ƒŒ™ π”√
         if( tmp->move( lastpoint, coordinate )  )
         {
-            char charArr[5] = {0};
-//            QString* str = NULL;
+            char charArr[10] = "point";
             QString mes;
             Chessman* tmpChessman = NULL;
             tmpChessman = tmp->whetherExist(lastpoint);
-            charArr[0] = tmpChessman->getOldPoint()[0] + 48;
-            charArr[1] = tmpChessman->getOldPoint()[1] + 48;
-            charArr[2] = coordinate[0] + 48;
-            charArr[3] = coordinate[1] + 48;
+            int newArr[5]={ tmpChessman->getOldPoint()[0], tmpChessman->getOldPoint()[1], coordinate[0],  coordinate[1] };
+            boardCoordinateConversion(newArr);
+            charArr[5] = newArr[0] + 48;
+            charArr[6] = newArr[1] + 48;
+            charArr[7] = newArr[2] + 48;
+            charArr[8] = newArr[3] + 48;
             mes = convertFromCharToQS(charArr);
-//            mes = *str;
-            qDebug("%d, %d, %d, %d", tmpChessman->getOldPoint()[0], tmpChessman->getOldPoint()[1], coordinate[0], coordinate[1]);
-            qDebug()<<mes;
             myClient->sendMesg(mes);
-            qDebug()<<lastpoint[0]<< lastpoint[1]<<coordinate[0]<<coordinate[1];
+            click->setLastCounter(count);
             ChessmanButton[click->getCounter()-1]->move(XY[0], XY[1]);
+            QSound::play("chizi.wav");
             return true;
         }
         else
             return false;
     }
+    else
+        return false;
 }
+/**********************************ÊåâÈíÆÊßΩÂáΩÊï∞(**************)*************************************************/
 
-/*
- *    Bishop->setStyleSheet(QString("QPushButton{border-image: url(:/POLISH/CannonR.GIF);}"
-
-                                  "QPushButton:pressed{ border-image: url(:/POLISH/CannonR2.GIF);}"   ) );
-    bool imageStatu = true;
-    if( imageStatu == true)
-    {
-        ChessmanButton[0]->setStyleSheet("QPushButton{border-image: qrc:/ChessImages/Images/RookR.GIF};");
-        imageStatu = false;
-    }else {
-        ChessmanButton[0]->setStyleSheet("QPushButton{border-image: qrc:/ChessImages/Images/RookRS.GIF};");
-        imageStatu = true;
-    }
-*/
-/**********************************∞¥≈•≤€∫Ø ˝(**************)*************************************************/
-/********************************** ≥‘◊”(◊ﬂµΩ¡Ì“ª∏ˆ∞¥≈•≤¢ π∆‰ ß–ß)*******************************************/
+void ChessBoard::on_Play_clicked()      //ÂºÄÂßãÊ∏∏Êàè ÂàùÂßãÂåñÊ£ãÁõò
+{
+    char campMesg[5] = "camp";
+    QString QcampMesg = convertFromCharToQS(campMesg);
+    myClient->sendMesg(QcampMesg);
+   ui->Play->hide();
+   ui->Play->setEnabled(false);
+}
+/********************************** ÂêÉÂ≠ê(Ëµ∞Âà∞Âè¶‰∏Ä‰∏™ÊåâÈíÆÂπ∂‰ΩøÂÖ∂Â§±Êïà)*******************************************/
 void ChessBoard::on_RRook_clicked()
 {
     int originalXY[2] = { ui->RRook->x(), ui->RRook->y() };
     int XY[2]={ ui->RRook->x() , ui->RRook->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,1) && 1 !=click->getCounter()  )
     {
         ui->RRook->setEnabled(false);
         ui->RRook->hide();
     }
     click->Choose_or_Move_Judge(1);
-   /*-----------------------------*/
 }
 void ChessBoard::on_RKnight_clicked()
 {
@@ -341,8 +455,6 @@ void ChessBoard::on_RKnight_clicked()
     int XY[2]={ ui->RKnight->x(), ui->RKnight->y() };
     coordinateConversion(XY);
 
-    qDebug("(%d,%d)",coordinate[0],coordinate[1]);
-    /*---------À≥–Ú±¬“------------*/
     if( Capture(originalXY,2) && 2 !=click->getCounter()  )
     {
         ui->RKnight->setEnabled(false);
@@ -355,7 +467,6 @@ void ChessBoard::on_RBIshop_clicked()
     int originalXY[2] = { ui->RBIshop->x(), ui->RBIshop->y() };
     int XY[2]={ ui->RBIshop->x(), ui->RBIshop->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
     if( Capture(originalXY,3) && 3 !=click->getCounter()  )
     {
         ui->RBIshop->setEnabled(false);
@@ -368,7 +479,6 @@ void ChessBoard::on_RMandarin_clicked()
     int originalXY[2] = { ui->RMandarin->x(), ui->RMandarin->y() };
     int XY[2]={ ui->RMandarin->x(), ui->RMandarin->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
     if( Capture(originalXY,4) && 4 !=click->getCounter()  )
     {
         ui->RMandarin->setEnabled(false);
@@ -381,11 +491,14 @@ void ChessBoard::on_RKing_clicked()
     int originalXY[2] = { ui->RKing->x(), ui->RKing->y() };
     int XY[2]={ ui->RKing->x(), ui->RKing->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,5) && 5 !=click->getCounter()  )
     {
         ui->RKing->setEnabled(false);
         ui->RKing->hide();
+
+        QMessageBox lose(QMessageBox::Information, "Game over!", "You lose!", QMessageBox::Yes);
+        if(lose.exec() == QMessageBox::Yes);
     }
     click->Choose_or_Move_Judge(5);
 }
@@ -394,7 +507,7 @@ void ChessBoard::on_RMandarin_2_clicked()
     int originalXY[2] = { ui->RMandarin_2->x(), ui->RMandarin_2->y() };
     int XY[2]={ ui->RMandarin_2->x(), ui->RMandarin_2->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,6) && 6 !=click->getCounter()  )
     {
         ui->RMandarin_2->setEnabled(false);
@@ -407,7 +520,7 @@ void ChessBoard::on_RBishop2_clicked()
     int originalXY[2] = { ui->RBishop2->x(), ui->RBishop2->y() };
     int XY[2]={ ui->RBishop2->x(), ui->RBishop2->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,7) && 7 !=click->getCounter()  )
     {
         ui->RBishop2->setEnabled(false);
@@ -421,8 +534,7 @@ void ChessBoard::on_RKnight2_clicked()
     int XY[2]={ ui->RKnight2->x(), ui->RKnight2->y() };
     coordinateConversion(XY);
 
-    qDebug("(%d,%d)",coordinate[0],coordinate[1]);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,8) && 8 !=click->getCounter()  )
     {
         ui->RKnight2->setEnabled(false);
@@ -435,7 +547,7 @@ void ChessBoard::on_RRook2_clicked()
     int originalXY[2] = { ui->RRook2->x(), ui->RRook2->y() };
     int XY[2]={ ui->RRook2->x(), ui->RRook2->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,9) && 9 !=click->getCounter()  )
     {
         ui->RRook2->setEnabled(false);
@@ -450,26 +562,20 @@ void ChessBoard::on_RCannon_clicked()
     int XY[2]={ ui->RCannon->x(), ui->RCannon->y() };
     coordinateConversion(XY);
 
-     /**’‚¡Ω––À≥–Ú∫‹÷ÿ“™, ¡Ω∏ˆ∫Ø ˝Õ®π˝class Movestatu÷–µƒMoveStatuµƒ÷µΩ¯––≈–∂œ≤¢Ω¯–––ﬁ∏ƒ**/
+     /**Ëøô‰∏§Ë°åÈ°∫Â∫èÂæàÈáçË¶Å, ‰∏§‰∏™ÂáΩÊï∞ÈÄöËøáclass Movestatu‰∏≠ÁöÑMoveStatuÁöÑÂÄºËøõË°åÂà§Êñ≠Âπ∂ËøõË°å‰øÆÊîπ**/
     if( Capture(originalXY,10) &&  10 != click->getCounter() )
     {
         ui->RCannon->setEnabled(false);
         ui->RCannon->hide();
     }
     click->Choose_or_Move_Judge(10);
-    /**«ßÕÚ≤ªƒ‹µﬂµπ, »Ùµﬂµπ∆Â◊”“∆∂Øπ¶ƒ‹Œﬁ∑®ÕÍ»´ µœ÷**/
-    /********************¥¥Ω®◊¯±Í∞¥≈•**********************/
-//    QPushButton *b2 = new QPushButton(this);
-//    b2->setText( tr("Cannon1(%1,%2)").arg(coordinate[0]).arg(coordinate[1] ) );
-//    b2->setGeometry(0,100,100,30);
-//    b2->show();
 }
 void ChessBoard::on_RCannon2_clicked()
 {
      int originalXY[2] = { ui->RCannon2->x(), ui->RCannon2->y() };
      int XY[2]={ ui->RCannon2->x(), ui->RCannon2->y() };
      coordinateConversion(XY);
-     /*---------À≥–Ú±¬“------------*/
+     /*---------È°∫Â∫èÂà´‰π±------------*/
      if( Capture(originalXY,11) && 11 !=click->getCounter() )
      {
          ui->RCannon2->setEnabled(false);
@@ -483,7 +589,7 @@ void ChessBoard::on_RPawn1_clicked()
     int originalXY[2] = { ui->RPawn1->x(), ui->RPawn1->y() };
     int XY[2]={ ui->RPawn1->x(), ui->RPawn1->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,12) && 12 !=click->getCounter() )
     {
         ui->RPawn1->setEnabled(false);
@@ -496,7 +602,7 @@ void ChessBoard::on_RPawn2_clicked()
     int originalXY[2] = { ui->RPawn2->x(), ui->RPawn2->y() };
     int XY[2]={ ui->RPawn2->x(), ui->RPawn2->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,13) && 13 !=click->getCounter() )
     {
         ui->RPawn2->setEnabled(false);
@@ -509,7 +615,7 @@ void ChessBoard::on_Rpawn3_clicked()
     int originalXY[2] = { ui->Rpawn3->x(), ui->Rpawn3->y() };
     int XY[2]={ ui->Rpawn3->x(), ui->Rpawn3->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,14) && 14 !=click->getCounter() )
     {
         ui->Rpawn3->setEnabled(false);
@@ -522,7 +628,7 @@ void ChessBoard::on_RPawn4_clicked()
     int originalXY[2] = { ui->RPawn4->x(), ui->RPawn4->y() };
     int XY[2]={ ui->RPawn4->x(), ui->RPawn4->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,15) && 15 !=click->getCounter() )
     {
         ui->RPawn4->setEnabled(false);
@@ -535,7 +641,7 @@ void ChessBoard::on_RPawn5_clicked()
     int originalXY[2] = { ui->RPawn5->x() , ui->RPawn5->y()  };
     int XY[2]={ ui->RPawn5->x(), ui->RPawn5->y()  };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,16) && 16 !=click->getCounter() )
     {
         ui->RPawn5->setEnabled(false);
@@ -548,7 +654,7 @@ void ChessBoard::on_BPawn1_clicked()
     int originalXY[2] = { ui->BPawn1->x() , ui->BPawn1->y()  };
     int XY[2]={ ui->BPawn1->x(), ui->BPawn1->y()  };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,17) && 17 !=click->getCounter() )
     {
         ui->BPawn1->setEnabled(false);
@@ -561,7 +667,7 @@ void ChessBoard::on_BPawn2_clicked()
     int originalXY[2] = { ui->BPawn2->x() , ui->BPawn2->y()  };
     int XY[2]={ ui->BPawn2->x() , ui->BPawn2->y()  };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,18) && 18 !=click->getCounter() )
     {
         ui->BPawn2->setEnabled(false);
@@ -574,7 +680,7 @@ void ChessBoard::on_BPawn3_clicked()
     int originalXY[2] = { ui->BPawn3->x(), ui->BPawn3->y() };
     int XY[2]={ ui->BPawn3->x() , ui->BPawn3->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,19) && 19 !=click->getCounter() )
     {
         ui->BPawn3->setEnabled(false);
@@ -587,7 +693,7 @@ void ChessBoard::on_BPawn4_clicked()
     int originalXY[2] = { ui->BPawn4->x(), ui->BPawn4->y() };
     int XY[2]={ ui->BPawn4->x() , ui->BPawn4->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,20) && 20 !=click->getCounter() )
     {
         ui->BPawn4->setEnabled(false);
@@ -600,7 +706,7 @@ void ChessBoard::on_BPawn5_clicked()
     int originalXY[2] = { ui->BPawn5->x(), ui->BPawn5->y() };
     int XY[2]={ ui->BPawn5->x() , ui->BPawn5->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,21) && 21 !=click->getCounter() )
     {
         ui->BPawn5->setEnabled(false);
@@ -613,7 +719,7 @@ void ChessBoard::on_BCannon1_clicked()
     int originalXY[2] = { ui->BCannon1->x(), ui->BCannon1->y() };
     int XY[2]={ ui->BCannon1->x() , ui->BCannon1->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,22) && 22 !=click->getCounter() )
     {
         ui->BCannon1->setEnabled(false);
@@ -626,7 +732,7 @@ void ChessBoard::on_BCannon2_clicked()
     int originalXY[2] = { ui->BCannon2->x(), ui->BCannon2->y() };
     int XY[2]={ ui->BCannon2->x() , ui->BCannon2->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,23) && 23 !=click->getCounter() )
     {
         ui->BCannon2->setEnabled(false);
@@ -640,7 +746,7 @@ void ChessBoard::on_BRook1_clicked()
     int originalXY[2] = { ui->BRook1->x(), ui->BRook1->y() };
     int XY[2]={ ui->BRook1->x() , ui->BRook1->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,24) && 24 !=click->getCounter() )
     {
         ui->BRook1->setEnabled(false);
@@ -653,7 +759,7 @@ void ChessBoard::on_BKnight1_clicked()
     int originalXY[2] = { ui->BKnight1->x(), ui->BKnight1->y() };
     int XY[2]={ ui->BKnight1->x() , ui->BKnight1->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,25) && 25 !=click->getCounter() )
     {
         ui->BKnight1->setEnabled(false);
@@ -666,7 +772,7 @@ void ChessBoard::on_BBishop1_clicked()
     int originalXY[2] = { ui->BBishop1->x(), ui->BBishop1->y() };
     int XY[2]={ ui->BBishop1->x() , ui->BBishop1->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,26) && 26 !=click->getCounter() )
     {
         ui->BBishop1->setEnabled(false);
@@ -679,7 +785,7 @@ void ChessBoard::on_BMandarin_clicked()
     int originalXY[2] = { ui->BMandarin->x(), ui->BMandarin->y() };
     int XY[2]={ ui->BMandarin->x() , ui->BMandarin->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,27) && 27 !=click->getCounter() )
     {
         ui->BMandarin->setEnabled(false);
@@ -693,11 +799,18 @@ void ChessBoard::on_BKing_clicked()
     int originalXY[2] = { ui->BKing->x(), ui->BKing->y() };
     int XY[2]={ ui->BKing->x() , ui->BKing->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
     if( Capture(originalXY,28) && 28 !=click->getCounter() )
     {
         ui->BKing->setEnabled(false);
         ui->BKing->hide();
+
+        QMessageBox victory(QMessageBox::Information, tr("Ê∏∏ÊàèÁªìÊùü!"), tr("‰Ω†Ëµ¢‰∫Ü!"), QMessageBox::Yes);
+        if(victory.exec() == QMessageBox::Yes)
+        {
+            QByteArray outcome = "outcome1";
+            myClient->sendMesg(outcome);
+        }
+
     }
     click->Choose_or_Move_Judge(28);
 }
@@ -706,7 +819,7 @@ void ChessBoard::on_BMandarin2_clicked()
     int originalXY[2] = { ui->BMandarin2->x(), ui->BMandarin2->y() };
     int XY[2]={ ui->BMandarin2->x() , ui->BMandarin2->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,29) && 29 !=click->getCounter() )
     {
         ui->BMandarin2->setEnabled(false);
@@ -719,7 +832,7 @@ void ChessBoard::on_BBishop2_clicked()
     int originalXY[2] = { ui->BBishop2->x(), ui->BBishop2->y() };
     int XY[2]={ ui->BBishop2->x() , ui->BBishop2->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,30) && 30 !=click->getCounter() )
     {
         ui->BBishop2->setEnabled(false);
@@ -732,7 +845,7 @@ void ChessBoard::on_BKnight2_clicked()
     int originalXY[2] = { ui->BKnight2->x(), ui->BKnight2->y() };
     int XY[2]={ ui->BKnight2->x() , ui->BKnight2->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,31) && 31 !=click->getCounter() )
     {
         ui->BKnight2->setEnabled(false);
@@ -745,7 +858,7 @@ void ChessBoard::on_BRook2_clicked()
     int originalXY[2] = { ui->BRook2->x(), ui->BRook2->y() };
     int XY[2]={ ui->BRook2->x() , ui->BRook2->y() };
     coordinateConversion(XY);
-    /*---------À≥–Ú±¬“------------*/
+    /*---------È°∫Â∫èÂà´‰π±------------*/
     if( Capture(originalXY,32) && 32 !=click->getCounter() )
     {
         ui->BRook2->setEnabled(false);
@@ -753,26 +866,72 @@ void ChessBoard::on_BRook2_clicked()
     }
     click->Choose_or_Move_Judge(32);
 }
-/*****************************************≤€∫Ø ˝≤ø∑÷**************************************************/
+
+void ChessBoard::on_sendButton_clicked()
+{
+    QDateTime time = QDateTime::currentDateTime();
+    QString str = time.toString("hh:mm:ss");
+    QString mesForShow = str+"\n"+ui->textEdit->toPlainText();
+    QString mesForSend = "conversation"+mesForShow;
+    ui->MesRecord->append(mesForShow);
+    ui->textEdit->clear();
+    myClient->sendMesg(mesForSend);
+}
 
 
-/*************ª˘±æ√ª”–Œ Ã‚≤ø∑÷**********************/
-void ChessBoard::boardCoordinateConversion(int *des)            //Ω´∂‘∑Ω“∆∂Øµƒ∆Â≈Ã◊¯±Í◊™ªØŒ™”Î◊‘º∫∆Â≈Ã…œ◊¯±Íœµ∂‘”¶µƒ◊¯±Í
+void ChessBoard::on_withdraw_clicked()
+{
+
+    if( click->getCounter() == click->getLastCounter() )                        //‰ªÖÁßªÂä® Ê≤°ÂêÉÂ≠ê
+    {
+        int *lastpoint=tmp->piece[ click->getCounter()-1 ]->getOldPoint();   //Ëé∑ÂèñÂΩìÂâçÁßªÂä®Ê£ãÂ≠êÁöÑÂ∫èÂè∑
+        tmp->piece[ click->getCounter()-1 ]->forceSetPoint( lastpoint );
+        boardToReal(lastpoint);
+        ChessmanButton[ click->getCounter()-1 ]->move( lastpoint[0],lastpoint[1] );
+    }
+    else                        //ÂêÉÂ≠ê
+    {
+        ChessmanButton[ click->getLastCounter()-1]->show();
+        ChessmanButton[ click->getLastCounter()-1]->setEnabled(true);
+        int *lastpoint=tmp->piece[ click->getCounter()-1 ]->getOldPoint();
+        int *pointOfHiddenP=tmp->piece[ click->getLastCounter()-1 ]->getOldPoint();
+        tmp->piece[ click->getCounter()-1 ]->forceSetPoint( lastpoint );
+        tmp->piece[ click->getLastCounter()-1 ]->forceSetPoint( pointOfHiddenP   );
+        boardToReal(lastpoint);
+        ChessmanButton[ click->getCounter()-1 ]->move( lastpoint[0],lastpoint[1] );
+    }
+}
+
+/*****************************************ÊßΩÂáΩÊï∞ÈÉ®ÂàÜ**************************************************/
+
+
+/*************Âü∫Êú¨Ê≤°ÊúâÈóÆÈ¢òÈÉ®ÂàÜ**********************/
+void ChessBoard::boardCoordinateConversion(int *des)            //Â∞ÜÂØπÊñπÁßªÂä®ÁöÑÊ£ãÁõòÂùêÊ†áËΩ¨Âåñ‰∏∫‰∏éËá™Â∑±Ê£ãÁõò‰∏äÂùêÊ†áÁ≥ªÂØπÂ∫îÁöÑÂùêÊ†á
 {
     des[0] = 8-des[0];
     des[1] = 9-des[1];
+    des[2] = 8-des[2];
+    des[3] = 9-des[3];
+}
+
+void ChessBoard::boardToReal(int *point)
+{
+    int w=50,h=50;
+    int ori[2]={398,250};                   //ÂéüÁÇπÂùêÊ†á
+    point[0] = ori[0]+point[0]*w-20;
+    point[1] = ori[1]+point[1]*h-20;
 }
 
 void ChessBoard::coordinateConversion(int *XY)
 {
     int Xoffset=25, Yoffset=25;
-    int originalPoint[2]={395,250};                 //‘≠µ„œÒÀÿ◊¯±Í
-    int h=50, w=50;                                     //–°∑Ω∏Òµƒ≥§øÌ
+    int originalPoint[2]={395,250};                 //ÂéüÁÇπÂÉèÁ¥†ÂùêÊ†á
+    int h=50, w=50;                                     //Â∞èÊñπÊ†ºÁöÑÈïøÂÆΩ
     XY[0]-=originalPoint[0];
     XY[1]-=originalPoint[1];
-    if(XY[1]>h*4)                                               //øº¬«≥˛∫”øÌ∂» œÚ…œ∆´“∆  ±æ¥Œ◊ ‘¥≥˛∫””Î∑Ω∏ÒÕ¨øÌ
+    if(XY[1]>h*4)                                               //ËÄÉËôëÊ•öÊ≤≥ÂÆΩÂ∫¶ Âêë‰∏äÂÅèÁßª  Êú¨Ê¨°ËµÑÊ∫êÊ•öÊ≤≥‰∏éÊñπÊ†ºÂêåÂÆΩ
        XY[1]-=0;
-    coordinate[0]=(XY[0]+Xoffset)/w;                     //∆´“∆“ª∂®Œª÷√ πµ„ª˜Ωª≤Êµ„∏ΩΩ¸«¯”Úº¥ø…p≈–∂œŒ™µ„ª˜‘⁄Ωª≤Ê¥¶
+    coordinate[0]=(XY[0]+Xoffset)/w;                     //ÂÅèÁßª‰∏ÄÂÆö‰ΩçÁΩÆ‰ΩøÁÇπÂáª‰∫§ÂèâÁÇπÈôÑËøëÂå∫ÂüüÂç≥ÂèØpÂà§Êñ≠‰∏∫ÁÇπÂáªÂú®‰∫§ÂèâÂ§Ñ
     coordinate[1]=(XY[1]+Yoffset)/h;
 }
 
@@ -781,21 +940,52 @@ void ChessBoard::getConversionCoordinate(int *point)
      point[0]=coordinate[0];
      point[1]=coordinate[1];
 }
-/**********ª˘±æ√ª”–Œ Ã‚≤ø∑÷**************************/
+/**********Âü∫Êú¨Ê≤°ÊúâÈóÆÈ¢òÈÉ®ÂàÜ**************************/
 
 
-/*------------ µœ÷π¶ƒ‹∫Û“∆µΩ¡Ì“ª∏ˆŒƒº˛÷–----------------*/
-MoveRecord::MoveRecord():MoveStatu(true), doubleStatu(true),MovePieceCounter(0)
+/*------------ÂÆûÁé∞ÂäüËÉΩÂêéÁßªÂà∞Âè¶‰∏Ä‰∏™Êñá‰ª∂‰∏≠----------------*/
+MoveRecord::MoveRecord():MoveStatu(true), doubleStatu(true),MovePieceCounter(0),lastMovePieceCounter(0)
 {
-    Point[0]=Point[1]=-1;
+
 }
 void MoveRecord::setCounter(int count)
 {
     MovePieceCounter = count;
 }
+
+int MoveRecord::getLastCounter()
+{
+    return lastMovePieceCounter;
+}
+
+void MoveRecord::setLastCounter(int count)
+{
+    lastMovePieceCounter=count;
+}
+
 int MoveRecord::getCounter()
 {
     return MovePieceCounter;
+}
+
+void MoveRecord::setMoveStatu()
+{
+    doubleStatu = false;
+}
+
+void MoveRecord::resetMoveStatu()
+{
+    MoveStatu = true;
+}
+
+void MoveRecord::setDoubleStatu()
+{
+    doubleStatu = false;
+}
+
+void MoveRecord::setStatu()
+{
+        MoveStatu = doubleStatu = false;
 }
 void MoveRecord::resetStatuT()
 {
@@ -809,44 +999,42 @@ bool MoveRecord::getStatu()
 {
     return MoveStatu;
 }
-//’‚∏ˆ∫Ø ˝µƒ¥´»Î≤Œ ˝√ª”– π”√ ø…“‘øº¬«»•µÙ
-//∏√∫Ø ˝π¶ƒ‹Œ™∏ƒ±‰∆Â◊”µƒ◊¥Ã¨
+//Ëøô‰∏™ÂáΩÊï∞ÁöÑ‰º†ÂÖ•ÂèÇÊï∞Ê≤°Êúâ‰ΩøÁî® ÂèØ‰ª•ËÄÉËôëÂéªÊéâ
+//ËØ•ÂáΩÊï∞ÂäüËÉΩ‰∏∫ÊîπÂèòÊ£ãÂ≠êÁöÑÁä∂ÊÄÅ
 void MoveRecord::Choose_or_Move_Judge(int count)
 {
-    if(     MoveStatu == false  && doubleStatu ==false   )
+    if(     MoveStatu == false  && doubleStatu ==false && count == click->getCounter() )
     {
-        qDebug()<<"Cancel movement or capture";
         MoveStatu  =  true;
+    }
+    else if( (MoveStatu == false  && doubleStatu ==false) && count != click->getCounter() )
+    {
+          MoveStatu = true;
     }
     else
     {
-        qDebug()<<"The Button Is Ready To Move! ";
-         MoveStatu = doubleStatu =  false;
+         MoveStatu = false;
     }
-}
-
-int *MoveRecord::updateClickCoordinate(int *XY)
-{
-//    qDebug()<<"Update point"<<XY[0]<<","<<XY[1]<<endl;
-    Point[0]=XY[0];     Point[1]=XY[1];
-    return XY;
 }
 /*--------------------------------------------------------*/
 
-/*--------------------------¿¨ª¯∑÷∏Óœﬂ---------------------------*/
-//bool ChessBoard::validClick(int *XY)      //‘› ±≤ª–Ë“™
-//{
-//     int originalPointEdge[2]={140,20};
-//     int opposite[2]={1055,940};
-//     for(int i=0; i<2;++i)
-//     {
-//        if(XY[i]<originalPointEdge[i] && XY[i]>opposite[i] )
-//                return false;
-//     }
-//     return true;
-//}
 
 
+void ChessBoard::on_pushButton_clicked()
+{
+    QRCode = QRCode==0?1:0;
+    if(QRCode)
+        ui->QRCodeLabel->show();
+    else
+        ui->QRCodeLabel->hide();
+}
 
-
-
+void ChessBoard::on_surrender_clicked()
+{
+    QMessageBox box(QMessageBox::Information,tr("ËÆ§Ëæì"),tr("‰∫≤ÔºåÊÇ®ÁúüÁöÑË¶ÅËÆ§Ëæì‰πàQAQ?"),QMessageBox::Yes|QMessageBox::No);
+     if(box.exec() == QMessageBox::Yes)
+     {
+         QByteArray surrender = "surrender";
+         myClient->sendMesg(surrender);
+     }
+}

@@ -7,7 +7,7 @@
 
 bool Bishop::setPoint(int* des, ChessController* controller)
 {
-    if(moveJudge(des, controller)){
+    if(moveJudge(des, controller) ){
         for(int i = 0; i < 2; i++){
             oldPoint[i] = this->point[i];
             this->point[i] = des[i];
@@ -27,7 +27,7 @@ bool Bishop::moveJudge(int* des, ChessController* controller)
             int tmpArray[2] = {(point[0]+des[0])/2, (point[1]+des[1])/2};
             tmpChess = controller->whetherExist(tmpArray);
 
-            //debugĞŞ¸Ä
+            //debugä¿®æ”¹
             if(tmpChess == NULL )
             {
                 if( des[1]>4){
@@ -36,10 +36,7 @@ bool Bishop::moveJudge(int* des, ChessController* controller)
                 else
                     return false;
             }
-            else return false;          //Ìí¼ÓÒ»¸öelse ÈôifÅĞ¶Ï²»Îª¿Õ ÔòËµÃ÷ÓĞÕÏ°­ÎïÎŞ·¨ÒÆ¶¯ ·µ»Ø¼Ù
-            //¿ÉÒÔ¸úÉÏÒ»¸öfalseºÏ²¢ ±È½Ï¼ò½à
-
-    //        return tmpChess == NULL && des[1] > 4;
+            else return false;          //æ·»åŠ ä¸€ä¸ªelse è‹¥ifåˆ¤æ–­tmpChessä¸ä¸ºç©º åˆ™è¯´æ˜æœ‰éšœç¢ç‰©æ— æ³•ç§»åŠ¨ è¿”å›å‡
         }
         else
         {
